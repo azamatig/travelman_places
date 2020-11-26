@@ -189,6 +189,7 @@ class _ProfilePageState extends State<ProfilePage>
             ),
             ListTile(
               title: Text('about us').tr(),
+              subtitle: Text('About travelman'),
               leading: Container(
                 height: 30,
                 width: 30,
@@ -209,30 +210,6 @@ class _ProfilePageState extends State<ProfilePage>
             ),
             Divider(
               height: 5,
-            ),
-            ListTile(
-              title: Text('buy now').tr(),
-              subtitle: Text('buy now subtitle').tr(),
-              leading: Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                    color: Colors.blueGrey,
-                    borderRadius: BorderRadius.circular(5)),
-                child:
-                    Icon(Feather.shopping_cart, size: 20, color: Colors.white),
-              ),
-              trailing: Icon(
-                Feather.chevron_right,
-                size: 20,
-              ),
-              onTap: () async {
-                if (await canLaunch(
-                    'https://codecanyon.net/item/flutter-travel-app-ui-kit-template-travel-hour/24958845')) {
-                  launch(
-                      'https://codecanyon.net/item/flutter-travel-app-ui-kit-template-travel-hour/24958845');
-                }
-              },
             ),
           ],
         ));

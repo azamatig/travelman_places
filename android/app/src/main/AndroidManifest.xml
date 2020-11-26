@@ -8,7 +8,7 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="Travelman"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -54,7 +54,7 @@
         
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA-fE7BtlehhX****************"/>  <!---Google map api key-->
+            android:value="AIzaSyBgSPunWyLVc_ddx1FT0NzwzYGJ-E4DPFI"/>  <!---Google map api key-->
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
