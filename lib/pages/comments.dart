@@ -31,7 +31,7 @@ class _CommentsPageState extends State<CommentsPage> {
   ScrollController controller;
   DocumentSnapshot _lastVisible;
   bool _isLoading;
-  List<DocumentSnapshot> _snap = new List<DocumentSnapshot>();
+  List<DocumentSnapshot> _snap = List<DocumentSnapshot>();
   List<Comment> _data = [];
   final scaffoldKey = GlobalKey<ScaffoldState>();
   var textCtrl = TextEditingController();

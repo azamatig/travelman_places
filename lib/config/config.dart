@@ -35,7 +35,7 @@ class Config {
 
   //Language Setup
 
-  final List<String> languages = ['English', 'Spanish'];
+  final List<String> languages = ['English', 'Spanish', 'Russian'];
 
   // Ads Setup
 

@@ -11,11 +11,11 @@
     "intro-description3" : "Get directions, costs and other travel related stuffs in one place...",
     "get started" : "Get Started",
 
-    "explore country" : "Explore Bangladesh",
+    "explore country" : "Explore World",
     "search places" : "Search Places",
     "popular places" : "Popular Places",
-    "special state-1 places" : "Places in Sylhet",
-    "special state-2 places" : "Places in Chittagong",
+    "special state-1 places" : "Places nearby",
+    "special state-2 places" : "Places of interest",
     "recently added" : "Recently Added",
     "recommended places" : "Recommended Places",
 
@@ -119,8 +119,7 @@
     "select language" : "Select Language",
 
     "buy now" : "Buy This App",
-    "buy now subtitle" : "Buy the full source code here and build the app for your country"
-
-
+    "buy now subtitle" : "Buy the full source code here and build the app for your country",
+    "search tickets": "Search tickets"
 
 }

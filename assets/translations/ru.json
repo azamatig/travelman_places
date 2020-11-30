@@ -1,0 +1,126 @@
+{
+
+  "welcome message" : "Исследуйте все известные места красивого мира и находите ближайшие отели и рестораны самым простым способом. Получайте маршруты в реальном времени, ориентировочную стоимость, изучайте блоги о путешествиях и многое другое .. ",
+  "welcome to" : "Добро пожаловать",
+
+  "intro-title1" : "Не важно где ты",
+  "intro-title2" : "Исследуйте вещи поблизости",
+  "intro-title3" : "Путеводитель в реальном времени",
+  "intro-description1" : "Доступ к важной информации о вашем пункте назначения до и во время путешествия...",
+  "intro-description2" : "Исследуйте близлежащие отели и рестораны рядом со всеми туристическими местами самым простым способом...",
+  "intro-description3" : "Получите информацию о маршрутах, расходах и другую информацию о путешествиях в одном месте ...",
+  "get started" : "Начать",
+
+  "explore country" : "Исследуй мир",
+  "search places" : "Искать места",
+  "popular places" : "Популярные места",
+  "special state-1 places" : "Места поблизости",
+  "special state-2 places" : "Интересные места ",
+  "recently added" : "Недавно добавленные",
+  "recommended places" : "Рекомендуемые места",
+
+  "people like this" : "Людям это нравится",
+  "todo" : "Помощь",
+  "you may also like" : "Вам также может понравиться",
+  "travel guide" : "Путеводитель",
+  "nearby hotels" : "Гостиницы поблизости",
+  "nearby restaurants" : "Рестораны поблизости",
+  "steps" : "Шаги",
+  "estimated cost = " : "Ориентировочная стоимость = ",
+  "distance = " : "Расстояние = ",
+  "no hotels found" : "Отели не найдены",
+  "no restaurants found" : "Ресторанов не найдено",
+  "we didn't find any nearby hotels in this area" : "Мы не нашли ближайших отелей в этом районе",
+  "we didn't find any nearby restaurants in this area" : "Мы не нашли поблизости ресторанов в этом районе",
+  "user reviews" : "Отзывы Пользователей",
+
+
+  "write a review" : "Написать обзор",
+  "no internet" : "Подключение к Интернету отсутствует!",
+  "no comments found" : "Комментариев не найдено",
+  "be the first to comment" : "Прокомментируйте первым",
+
+  "recently added places" : "Недавно добавленные места",
+
+
+  "search & explore" : "Искать и исследовать места",
+  "recent searchs" : "Недавний поиск",
+  "search for places" : "Искать места",
+  "search-description" :  "Вы еще не искали ничего.\n Попробуйте сейчас - мы вам поможем!!",
+  "we have found" : "Мы нашли",
+  "no places found" : "Ничего не найдено",
+  "try again" : "Попробуйте еще раз!",
+
+
+
+  "states" : "Туры",
+  "blogs" : "Блоги",
+
+
+  "bookmarks" : "Закладки",
+  "saved places" : "Сохраненные места",
+  "saved blogs" : "Сохраненные блоги",
+  "sign in first" : "Войдите сначала",
+  "sign in to save your favourite places here" : "Войдите, чтобы сохранить здесь свои любимые места",
+  "sign in to save your favourite blogs here" : "Войдите, чтобы сохранить здесь свои любимые блоги",
+  "no blogs found" : "Блоги не найдены",
+  "save your favourite places here" : "Сохраните здесь свои любимые места",
+  "save your favourite blogs here" : "Сохраняйте здесь свои любимые блоги",
+
+
+
+  "skip" : "Пропустить",
+  "check your internet connection!" : "Проверьте ваше интернет-соединение!",
+  "something is wrong. please try again." : "Что-то не так. Пожалуйста, попробуйте еще раз.",
+
+
+  "sign in" : "Войти",
+  "cancel" : "Отмена",
+
+  "no sign in title" : "Войдите сначала, чтобы получить доступ к этой функции",
+  "no sign in subtitle" : "Вы еще не вошли в систему. Пожалуйста, войдите, чтобы разблокировать эту функцию",
+
+
+
+  "comments" : "Комментарии",
+  "write a comment" : "Написать комментарий",
+
+
+
+  "no content" : "Содержание не найдено",
+  "delete?" : "Удалить?",
+  "delete from database?" : "Хотите удалить это?",
+
+
+  "notifications" : "Уведомления",
+  "notification details" : "Детали уведомления",
+
+
+  "profile" : "Профиль",
+  "general setting" : "Общие настройки",
+  "login" : "Логин",
+  "get notifications" : "Получить уведомления",
+  "contact us" : "Поддержка",
+  "rate this app" : "Оценить",
+  "licence" : "Лицензия",
+  "privacy policy" : "Политика",
+  "about us" : "О нас",
+  "logout" : "Выйти",
+  "edit profile" : "Редактировать профиль",
+  "update profile" : "Обновить профиль",
+  "updated successfully" : "Успешно Обновлено",
+  "enter new name" : "Введите новое имя",
+
+  "logout title" : "Вы действительно хотите выйти из приложения?",
+  "yes" : "Да",
+  "no" : "Нет",
+
+  "language" : "Язык",
+  "select language" : "Выбрать язык",
+
+  "buy now" : "Buy This App",
+  "buy now subtitle" : "Buy the full source code here and build the app for your country",
+  "search tickets": "Поиск билетов"
+
+
+}

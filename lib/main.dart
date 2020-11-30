@@ -27,7 +27,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(EasyLocalization(
-    supportedLocales: [Locale('en'), Locale('es')],
+    supportedLocales: [Locale('en'), Locale('es'), Locale('ru')],
     path: 'assets/translations',
     fallbackLocale: Locale('en'),
     startLocale: Locale('en'),

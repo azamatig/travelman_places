@@ -5,6 +5,7 @@ import 'package:travelman/pages/comments.dart';
 import 'package:travelman/pages/guide.dart';
 import 'package:travelman/pages/hotel.dart';
 import 'package:travelman/pages/restaurant.dart';
+import 'package:travelman/pages/ticket_search.dart';
 import 'package:travelman/utils/next_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -206,6 +207,44 @@ class TodoWidget extends StatelessWidget {
                       collectionName: 'places',
                       timestamp: placeData.timestamp,
                     )),
+              ),
+              InkWell(
+                child: Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                      color: Colors.purple[700],
+                                      offset: Offset(5, 5),
+                                      blurRadius: 2)
+                                ]),
+                            child: Icon(
+                              LineIcons.ticket,
+                              size: 30,
+                            ),
+                          ),
+                          Text(
+                            'search tickets',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
+                          ).tr(),
+                        ])),
+                onTap: () => nextScreen(context, TicketSearch()),
               ),
             ],
           ),

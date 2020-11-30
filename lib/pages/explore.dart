@@ -113,6 +113,42 @@ class Header extends StatelessWidget {
               ),
               Spacer(),
               InkWell(
+                  onTap: () {
+                  },
+                  child: sb.imageUrl == null || sb.isSignedIn == false
+                      ? Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(Icons.person, size: 28),
+                        )
+                      : Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(FontAwesome.send, size: 18),
+                        )),
+              InkWell(
+                  onTap: () {},
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.add, size: 28),
+                  )),
+              SizedBox(
+                width: 10,
+              ),
+              InkWell(
                 child: sb.imageUrl == null || sb.isSignedIn == false
                     ? Container(
                         height: 50,
