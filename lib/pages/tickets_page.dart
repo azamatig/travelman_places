@@ -53,8 +53,8 @@ class _TicketsPageState extends State<TicketsPage>
       body: Stack(
         children: <Widget>[
           // AirAsiaBar(
-         //   height: 180,
-       //   ),
+          //   height: 180,
+          //   ),
           Positioned.fill(
             top: MediaQuery.of(context).padding.top + 64.0,
             child: SingleChildScrollView(
@@ -76,9 +76,9 @@ class _TicketsPageState extends State<TicketsPage>
       return AnimatedBuilder(
         animation: cardEntranceAnimationController,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-          child: Container()// TicketCard(stop: stop),
-        ),
+            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+            child: Container() // TicketCard(stop: stop),
+            ),
         builder: (context, child) => new Transform.translate(
           offset: Offset(0.0, ticketAnimations[index].value),
           child: child,

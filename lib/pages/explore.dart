@@ -12,8 +12,10 @@ import 'package:travelman/blocs/sp_state_one.dart';
 import 'package:travelman/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travelman/config/config.dart';
+import 'package:travelman/pages/chat_screens/chat_screen.dart';
 import 'package:travelman/pages/profile.dart';
 import 'package:travelman/pages/search.dart';
+import 'package:travelman/pages/user_posts/user_post_uploader.dart';
 import 'package:travelman/utils/next_screen.dart';
 import 'package:travelman/widgets/featured_places.dart';
 import 'package:travelman/widgets/popular_places.dart';
@@ -114,28 +116,23 @@ class Header extends StatelessWidget {
               Spacer(),
               InkWell(
                   onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => ChatScreen()));
                   },
-                  child: sb.imageUrl == null || sb.isSignedIn == false
-                      ? Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(Icons.person, size: 28),
-                        )
-                      : Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(FontAwesome.send, size: 18),
-                        )),
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(FontAwesome.send, size: 18),
+                  )),
               InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => PostUploader()));
+                  },
                   child: Container(
                     height: 50,
                     width: 50,
