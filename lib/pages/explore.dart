@@ -12,6 +12,7 @@ import 'package:travelman/blocs/sp_state_one.dart';
 import 'package:travelman/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travelman/config/config.dart';
+import 'package:travelman/pages/booking_page/booking_page.dart';
 import 'package:travelman/pages/chat_screens/chat_screen.dart';
 import 'package:travelman/pages/profile.dart';
 import 'package:travelman/pages/search.dart';
@@ -116,6 +117,20 @@ class Header extends StatelessWidget {
                 ],
               ),
               Spacer(),
+              InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => BookingMain()));
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(FontAwesome.ticket, size: 18),
+                  )),
               InkWell(
                   onTap: () {
                     Navigator.push(context,

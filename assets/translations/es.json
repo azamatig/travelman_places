@@ -121,8 +121,17 @@
     "buy now" : "Comprar esta aplicación",
     "buy now subtitle" : "Compre el código fuente completo aquí y cree la aplicación para su país",
     "search tickets": "Buscar entradas",
-    "booking": "Booking",
-    "flights": "Flights",
-    "hotels": "Hotels"
+    "booking": "Reserva",
+    "flights": "Vuelos",
+    "hotels": "Hoteles",
+    "more": "más",
+    "current deals": "Ofertas actuales",
+    "overview": "Visión de conjunto",
+    "location": "Ubicación",
+    "reviews": "Reseñas",
+    "equipments": "Equipos",
+    "book now": "Reservar ahora",
+    "trip": "Excursiones",
+    "About this hotel": "Acerca de este hotel"
 
 }
