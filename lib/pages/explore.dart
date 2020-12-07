@@ -24,6 +24,7 @@ import 'package:travelman/widgets/recommended_places.dart';
 import 'package:travelman/widgets/special_state1.dart';
 import 'package:travelman/widgets/special_state2.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:travelman/widgets/user_posts_section.dart';
 
 class Explore extends StatefulWidget {
   Explore({Key key}) : super(key: key);
@@ -66,6 +67,7 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
                   Header(),
                   Featured(),
                   PopularPlaces(),
+                  UserPostSection(),
                   RecentPlaces(),
                   SpecialStateOne(),
                   SpecialStateTwo(),

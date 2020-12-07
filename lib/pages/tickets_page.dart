@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travelman/models/flight_ticket.dart';
 
+// TODO: Переделать, можно снести
 class TicketsPage extends StatefulWidget {
   @override
   _TicketsPageState createState() => _TicketsPageState();
@@ -55,6 +56,7 @@ class _TicketsPageState extends State<TicketsPage>
           // AirAsiaBar(
           //   height: 180,
           //   ),
+          Center(child: Text('not implemented yet')),
           Positioned.fill(
             top: MediaQuery.of(context).padding.top + 64.0,
             child: SingleChildScrollView(

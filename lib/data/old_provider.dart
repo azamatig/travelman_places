@@ -109,13 +109,13 @@ class FirebaseProvider {
         _firestore.collection("users").doc(currentUser.uid).collection("posts");
 
     post = Post(
-        currentUserUid: currentUser.uid,
+        ownerUid: currentUser.uid,
         imgUrl: imgUrl,
         caption: caption,
         location: location,
         postOwnerName: currentUser.displayName,
         postOwnerPhotoUrl: currentUser.photoUrl,
-        time: FieldValue.serverTimestamp());
+        time: Timestamp.now());
 
     return _collectionRef.add(post.toMap(post));
   }
@@ -327,8 +327,7 @@ class FirebaseProvider {
 
   Future<List<UserModel>> fetchAllUsers(auth.User user) async {
     List<UserModel> userList = List<UserModel>();
-    QuerySnapshot querySnapshot =
-        await _firestore.collection("users").get();
+    QuerySnapshot querySnapshot = await _firestore.collection("users").get();
     for (var i = 0; i < querySnapshot.docs.length; i++) {
       if (querySnapshot.docs[i].id != user.uid) {
         userList.add(UserModel.fromMap(querySnapshot.docs[i].data()));

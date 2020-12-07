@@ -17,7 +17,7 @@ class BlogBloc extends ChangeNotifier {
   String _popSelection = 'popular';
   String get popupSelection => _popSelection;
 
-  List<DocumentSnapshot> _snap = new List<DocumentSnapshot>();
+  List<DocumentSnapshot> _snap = List<DocumentSnapshot>();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   bool _hasData;

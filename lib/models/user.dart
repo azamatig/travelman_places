@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   String uid;
   String email;
@@ -44,5 +46,20 @@ class UserModel {
     this.bio = mapData['bio'];
     this.posts = mapData['posts'];
     this.phone = mapData['phone'];
+  }
+
+  factory UserModel.fromFirestore(DocumentSnapshot snapshot) {
+    var d = snapshot.data();
+    return UserModel(
+      uid: d['uid'],
+      email: d['email'],
+      photoUrl: d['photoUrl'],
+      displayName: d['displayName'],
+      followers: d['followers'],
+      following: d['following'],
+      bio: d['bio'],
+      posts: d['posts'],
+      phone: d['phone'],
+    );
   }
 }

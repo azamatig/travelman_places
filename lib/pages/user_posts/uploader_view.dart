@@ -1,15 +1,14 @@
 import 'dart:io';
-import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:geocoder/geocoder.dart';
-import 'package:image/image.dart' as Im;
 import 'package:travelman/data/location.dart';
 import 'package:travelman/data/old_repo.dart';
-import 'package:travelman/pages/home.dart';
+import 'package:uuid/uuid.dart';
 
 class Uploader extends StatefulWidget {
   final String profileImageUrl;
@@ -24,6 +23,7 @@ class _Uploader extends State<Uploader> {
   //Strings required to save address
   Address address;
   String userPhoto;
+  String userUid;
   Map<String, double> currentLocation = Map();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -45,11 +45,14 @@ class _Uploader extends State<Uploader> {
   initPlatformState() async {
     String photoUrl =
         await _repository.getCurrentUser().then((value) => value.photoURL);
+    String ownerId =
+        await _repository.getCurrentUser().then((value) => value.uid);
     Address first = await getUserLocation();
     if (mounted) {
       setState(() {
         address = first;
         userPhoto = photoUrl;
+        userUid = ownerId;
       });
     }
   }
@@ -170,7 +173,7 @@ class _Uploader extends State<Uploader> {
       builder: (BuildContext context) {
         final _picker = ImagePicker();
         return SimpleDialog(
-          title: const Text('Создать post'),
+          title: const Text('Звгрузить фото'),
           children: <Widget>[
             SimpleDialogOption(
                 child: const Text('Фото'),
@@ -186,8 +189,8 @@ class _Uploader extends State<Uploader> {
                 child: const Text('Выбрать из галереи'),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  var pick = ImagePicker();
-                  PickedFile imageFile = await pick.getImage(
+                  final _picker = ImagePicker();
+                  PickedFile imageFile = await _picker.getImage(
                       source: ImageSource.gallery,
                       maxWidth: 1920,
                       maxHeight: 1200,
@@ -214,55 +217,57 @@ class _Uploader extends State<Uploader> {
     });
   }
 
-  void compressImage() async {
-    print('starting compression');
-    final tempDir = await getTemporaryDirectory();
-    final path = tempDir.path;
-    int rand = Random().nextInt(10000);
-
-    Im.Image image = Im.decodeImage(file.readAsBytesSync());
-    Im.copyResize(image);
-
-    var newim2 = new File('$path/img_$rand.jpg')
-      ..writeAsBytesSync(Im.encodeJpg(image, quality: 85));
-
-    setState(() {
-      file = newim2;
-    });
-    print('done');
-  }
-
   void postImage() {
     setState(() {
       uploading = true;
     });
-    _repository.getCurrentUser().then((currentUser) {
-      if (currentUser != null) {
-        compressImage();
-        _repository.retrieveUserDetails(currentUser).then((user) {
-          _repository.uploadImageToStorage(file).then((url) {
-            _repository
-                .addPostToDb(user, url, descriptionController.text,
-                    locationController.text)
-                .then((value) {
-              print("Post added to db");
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: ((context) => HomePage())));
-            }).catchError((e) => print("Error adding current post to db : $e"));
-          }).catchError((e) {
-            print("Error uploading image to storage : $e");
-          });
-        });
-      } else {
-        print("Current User is null");
-      }
-    }).then((_) {
-      setState(() {
-        file = null;
-        uploading = false;
-      });
+    uploadImage(file).then((String data) {
+      postToFireStore(
+          profileImgUrl: userPhoto,
+          mediaUrl: data,
+          name: '',
+          userId: userUid,
+          description: descriptionController.text,
+          location: locationController.text);
+    });
+    setState(() {
+      file = null;
+      uploading = false;
     });
   }
+}
+
+Future<String> uploadImage(var imageFile) async {
+  var uuid = Uuid().v1();
+  StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
+  StorageUploadTask uploadTask = ref.putFile(imageFile);
+
+  String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
+  return downloadUrl;
+}
+
+void postToFireStore(
+    {BuildContext context,
+    String name,
+    String userId,
+    String mediaUrl,
+    String location,
+    String profileImgUrl,
+    String description,
+    bool isOperator}) async {
+  var reference = FirebaseFirestore.instance.collection('users/$userId/posts');
+  reference.add({
+    "postOwnerName": name,
+    "postOwnerPhotoUrl": profileImgUrl,
+    "location": location,
+    "imgUrl": mediaUrl,
+    "caption": description,
+    "ownerUid": userId,
+    "time": DateTime.now(),
+  }).then((DocumentReference doc) {
+    String docId = doc.id;
+    reference.doc(docId).update({"postId": docId});
+  });
 }
 
 class PostForm extends StatelessWidget {

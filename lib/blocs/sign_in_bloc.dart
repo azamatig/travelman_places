@@ -8,10 +8,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:travelman/models/post_user.dart';
 
 class SignInBloc extends ChangeNotifier {
-
-  
   SignInBloc() {
     checkSignIn();
     checkGuestUser();
@@ -21,7 +20,8 @@ class SignInBloc extends ChangeNotifier {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googlSignIn = new GoogleSignIn();
   final FacebookLogin _fbLogin = new FacebookLogin();
-  final String defaultUserImageUrl = 'https://www.seekpng.com/png/detail/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png';
+  final String defaultUserImageUrl =
+      'https://www.seekpng.com/png/detail/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png';
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   bool _guestUser = false;
@@ -36,7 +36,6 @@ class SignInBloc extends ChangeNotifier {
   String _errorCode;
   String get errorCode => _errorCode;
 
-
   String _name;
   String get name => _name;
 
@@ -45,6 +44,9 @@ class SignInBloc extends ChangeNotifier {
 
   String _email;
   String get email => _email;
+
+  List<Post> _data = [];
+  List<Post> get data => _data;
 
   String _imageUrl;
   String get imageUrl => _imageUrl;
@@ -63,33 +65,29 @@ class SignInBloc extends ChangeNotifier {
   String _packageName = '';
   String get packageName => _packageName;
 
-
-
-  void initPackageInfo () async{
+  void initPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     _appVersion = packageInfo.version;
     _packageName = packageInfo.packageName;
     notifyListeners();
-    
   }
 
-
-
-
-  
-
   Future signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await _googlSignIn.signIn().catchError((error) => print('error : $error'));
+    final GoogleSignInAccount googleUser = await _googlSignIn
+        .signIn()
+        .catchError((error) => print('error : $error'));
     if (googleUser != null) {
       try {
-        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
 
-        User userDetails = (await _firebaseAuth.signInWithCredential(credential)).user;
+        User userDetails =
+            (await _firebaseAuth.signInWithCredential(credential)).user;
 
         this._name = userDetails.displayName;
         this._email = userDetails.email;
@@ -110,25 +108,27 @@ class SignInBloc extends ChangeNotifier {
     }
   }
 
-
-
   Future signInwithFacebook() async {
-
-      User currentUser;
-      final FacebookLoginResult facebookLoginResult =  await _fbLogin.logIn(['email', 'public_profile']).catchError((error) => print('error: $error'));
-      if(facebookLoginResult.status == FacebookLoginStatus.cancelledByUser){
-        _hasError = true;
-        _errorCode = 'cancel';
-        notifyListeners();
-      } else if(facebookLoginResult.status == FacebookLoginStatus.error){
-        _hasError = true;
-        notifyListeners();
-      } else{
-        try {
-          if (facebookLoginResult.status == FacebookLoginStatus.loggedIn) {
-          FacebookAccessToken facebookAccessToken = facebookLoginResult.accessToken;
-          final AuthCredential credential = FacebookAuthProvider.credential(facebookAccessToken.token);
-          final User user = (await _firebaseAuth.signInWithCredential(credential)).user;
+    User currentUser;
+    final FacebookLoginResult facebookLoginResult = await _fbLogin
+        .logIn(['email', 'public_profile']).catchError(
+            (error) => print('error: $error'));
+    if (facebookLoginResult.status == FacebookLoginStatus.cancelledByUser) {
+      _hasError = true;
+      _errorCode = 'cancel';
+      notifyListeners();
+    } else if (facebookLoginResult.status == FacebookLoginStatus.error) {
+      _hasError = true;
+      notifyListeners();
+    } else {
+      try {
+        if (facebookLoginResult.status == FacebookLoginStatus.loggedIn) {
+          FacebookAccessToken facebookAccessToken =
+              facebookLoginResult.accessToken;
+          final AuthCredential credential =
+              FacebookAuthProvider.credential(facebookAccessToken.token);
+          final User user =
+              (await _firebaseAuth.signInWithCredential(credential)).user;
           assert(user.email != null);
           assert(user.displayName != null);
           assert(!user.isAnonymous);
@@ -141,93 +141,76 @@ class SignInBloc extends ChangeNotifier {
           this._imageUrl = user.photoURL;
           this._uid = user.uid;
           this._signInProvider = 'facebook';
-        
-        
+
           _hasError = false;
           notifyListeners();
-      }
-    } catch (e) {
+        }
+      } catch (e) {
         _hasError = true;
         _errorCode = e.toString();
         notifyListeners();
       }
-    
-    
     }
   }
 
-
-
-  Future signInWithApple () async {
-
+  Future signInWithApple() async {
     final _firebaseAuth = FirebaseAuth.instance;
-    final result = await AppleSignIn.performRequests(
-        [AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])]);
+    final result = await AppleSignIn.performRequests([
+      AppleIdRequest(requestedScopes: [Scope.email, Scope.fullName])
+    ]);
 
-    if(result.status == AuthorizationStatus.authorized){
-      try
-      {
+    if (result.status == AuthorizationStatus.authorized) {
+      try {
         final appleIdCredential = result.credential;
         final oAuthProvider = OAuthProvider('apple.com');
         final credential = oAuthProvider.credential(
           idToken: String.fromCharCodes(appleIdCredential.identityToken),
-          accessToken: String.fromCharCodes(appleIdCredential.authorizationCode),
+          accessToken:
+              String.fromCharCodes(appleIdCredential.authorizationCode),
         );
         final authResult = await _firebaseAuth.signInWithCredential(credential);
         final firebaseUser = authResult.user;
 
         this._uid = firebaseUser.uid;
-        this._name = '${appleIdCredential.fullName.givenName} ${appleIdCredential.fullName.familyName}';
+        this._name =
+            '${appleIdCredential.fullName.givenName} ${appleIdCredential.fullName.familyName}';
         this._email = appleIdCredential.email;
         this._imageUrl = firebaseUser.photoURL ?? defaultUserImageUrl;
         this._signInProvider = 'apple';
 
-        
         print(firebaseUser);
         _hasError = false;
         notifyListeners();
-
-
-      }
-      catch(e)
-      {
+      } catch (e) {
         _hasError = true;
         _errorCode = e.toString();
         notifyListeners();
       }
-    }
-    else if (result.status == AuthorizationStatus.error)
-    {
+    } else if (result.status == AuthorizationStatus.error) {
       _hasError = true;
       _errorCode = 'Appple Sign In Error! Please try again';
       notifyListeners();
-    }
-    else if (result.status == AuthorizationStatus.cancelled)
-    {
+    } else if (result.status == AuthorizationStatus.cancelled) {
       _hasError = true;
       _errorCode = 'Sign In Cancelled!';
       notifyListeners();
     }
-    
   }
 
-
-
   Future<bool> checkUserExists() async {
-    
     DocumentSnapshot snap = await firestore.collection('users').doc(_uid).get();
-    if(snap.exists){
+    if (snap.exists) {
       print('User Exists');
       return true;
-    }else{
+    } else {
       print('new user');
       return false;
     }
   }
 
-
   Future saveToFirebase() async {
-    final DocumentReference ref = FirebaseFirestore.instance.collection('users').doc(_uid);
+    final DocumentReference ref =
+        FirebaseFirestore.instance.collection('users').doc(_uid);
     var userData = {
       'name': _name,
       'email': _email,
@@ -242,9 +225,17 @@ class SignInBloc extends ChangeNotifier {
     await ref.set(userData);
   }
 
+  Future getData() async {
+    final CollectionReference ref =
+        FirebaseFirestore.instance.collection('users/$_uid/posts');
+    QuerySnapshot rawData;
+    rawData = await ref.get().catchError((error) => print('error : $error'));
 
-
-
+    List<DocumentSnapshot> _snap = [];
+    _snap.addAll(rawData.docs);
+    _data = _snap.map((e) => Post.fromFirestore(e)).toList();
+    notifyListeners();
+  }
 
   Future getJoiningDate() async {
     DateTime now = DateTime.now();
@@ -252,9 +243,6 @@ class SignInBloc extends ChangeNotifier {
     _joiningDate = _date;
     notifyListeners();
   }
-
-
-
 
   Future saveDataToSP() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
@@ -267,9 +255,7 @@ class SignInBloc extends ChangeNotifier {
     await sp.setString('sign_in_provider', _signInProvider);
   }
 
-
-
-  Future getDataFromSp () async {
+  Future getDataFromSp() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _name = sp.getString('name');
     _email = sp.getString('email');
@@ -279,8 +265,6 @@ class SignInBloc extends ChangeNotifier {
     _signInProvider = sp.getString('sign_in_provider');
     notifyListeners();
   }
-
-
 
   Future getUserDatafromFirebase(uid) async {
     await FirebaseFirestore.instance
@@ -298,8 +282,6 @@ class SignInBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   Future setSignIn() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setBool('signed_in', true);
@@ -307,24 +289,19 @@ class SignInBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   void checkSignIn() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _isSignedIn = sp.getBool('signed_in') ?? false;
     notifyListeners();
   }
 
-
-
   Future userSignout() async {
-    if(_signInProvider == 'apple'){
+    if (_signInProvider == 'apple') {
       await _firebaseAuth.signOut();
-    }
-    else if (_signInProvider == 'facebook'){
+    } else if (_signInProvider == 'facebook') {
       await _firebaseAuth.signOut();
       await _fbLogin.logOut();
-    } else{
+    } else {
       await _firebaseAuth.signOut();
       await _googlSignIn.signOut();
     }
@@ -334,8 +311,6 @@ class SignInBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   Future setGuestUser() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     await sp.setBool('guest_user', true);
@@ -343,25 +318,16 @@ class SignInBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
   void checkGuestUser() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _guestUser = sp.getBool('guest_user') ?? false;
     notifyListeners();
   }
 
-
-
-
   Future clearAllData() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     sp.clear();
   }
-
-
-
-
 
   Future guestSignout() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
@@ -370,57 +336,42 @@ class SignInBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
-
-  Future updateUserProfile (String newName, String newImageUrl) async{
+  Future updateUserProfile(String newName, String newImageUrl) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
 
-    FirebaseFirestore.instance.collection('users').doc(_uid)
-    .update({
-      'name': newName,
-      'image url' : newImageUrl
-    });
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(_uid)
+        .update({'name': newName, 'image url': newImageUrl});
 
     sp.setString('name', newName);
     sp.setString('image url', newImageUrl);
     _name = newName;
     _imageUrl = newImageUrl;
-    
+
     notifyListeners();
-
-
   }
 
-
-
-  Future<int> getTotalUsersCount () async {
+  Future<int> getTotalUsersCount() async {
     final String fieldName = 'count';
-    final DocumentReference ref = firestore.collection('item_count').doc('users_count');
-      DocumentSnapshot snap = await ref.get();
-      if(snap.exists == true){
-        int itemCount = snap[fieldName] ?? 0;
-        return itemCount;
-      }
-      else{
-        await ref.set({
-          fieldName : 0
-        });
-        return 0;
-      }
+    final DocumentReference ref =
+        firestore.collection('item_count').doc('users_count');
+    DocumentSnapshot snap = await ref.get();
+    if (snap.exists == true) {
+      int itemCount = snap[fieldName] ?? 0;
+      return itemCount;
+    } else {
+      await ref.set({fieldName: 0});
+      return 0;
+    }
   }
 
-
-  Future increaseUserCount () async {
-    await getTotalUsersCount()
-    .then((int documentCount)async {
-      await firestore.collection('item_count')
-      .doc('users_count')
-      .update({
-        'count' : documentCount + 1
-      });
+  Future increaseUserCount() async {
+    await getTotalUsersCount().then((int documentCount) async {
+      await firestore
+          .collection('item_count')
+          .doc('users_count')
+          .update({'count': documentCount + 1});
     });
   }
-
-
 }
