@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:travelman/pages/booking_page/hotel_details.dart';
 import 'package:travelman/widgets/consts_temp.dart';
 import 'package:travelman/widgets/recommendImage.dart';
 import 'package:travelman/widgets/textStyles.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BookingMain extends StatefulWidget {
   @override
   _BookingMainState createState() => _BookingMainState();
 }
 
-class _BookingMainState extends State<BookingMain> with SingleTickerProviderStateMixin {
+class _BookingMainState extends State<BookingMain>
+    with SingleTickerProviderStateMixin {
   TabController tabController;
 
   @override
   void initState() {
     super.initState();
-    tabController = new TabController(length: 3, vsync: this);
+    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -28,7 +31,8 @@ class _BookingMainState extends State<BookingMain> with SingleTickerProviderStat
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kwhite,
-        title: BoldText("My Orders", 25, kblack),
+        title:
+            Text("booking", style: TextStyle(fontSize: 25, color: kblack)).tr(),
         centerTitle: true,
         elevation: 0.0,
       ),
@@ -41,9 +45,9 @@ class _BookingMainState extends State<BookingMain> with SingleTickerProviderStat
           controller: tabController,
           indicatorColor: kdarkBlue,
           tabs: <Widget>[
-            Tab(text: "Flights"),
-            Tab(text: "Hotels"),
-            Tab(text: "Deliveries"),
+            Tab(text: "flights".tr()),
+            Tab(text: "hotels".tr()),
+            Tab(text: "trip".tr()),
           ],
         ),
         body: TabBarView(
@@ -58,44 +62,52 @@ class _BookingMainState extends State<BookingMain> with SingleTickerProviderStat
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        BoldText("Current order", 20.0, kblack),
-                        BoldText("More", 16, kdarkBlue),
+                        BoldText("current deals".tr(), 20.0, kblack),
+                        BoldText("more".tr(), 16, kdarkBlue),
                       ],
                     ),
                     SizedBox(
                       height: 16,
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 80,
-                      height: 250,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width - 80,
-                            height: 200.0,
-                            child: ClipRRect(
-                                borderRadius: new BorderRadius.all(
-                                  Radius.circular(15),
-                                ),
-                                child: Image.asset(
-                                  "assets/sheraton.jpg",
-                                  fit: BoxFit.fitHeight,
-                                )),
-                          ),
-                          BoldText("sheraton", 20.0, kblack),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              NormalText("Oran", kgreyDark, 12.0),
-                              Icon(
-                                Icons.location_on,
-                                color: kgreyDark,
-                                size: 16.0,
-                              )
-                            ],
-                          )
-                        ],
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => HotelOverviewPage()));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width - 80,
+                        height: 250,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              width: MediaQuery.of(context).size.width - 80,
+                              height: 200.0,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(15),
+                                  ),
+                                  child: Image.asset(
+                                    "assets/images/sheraton.jpg",
+                                    fit: BoxFit.fitHeight,
+                                  )),
+                            ),
+                            BoldText("sheraton", 20.0, kblack),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                NormalText("Oran", kgreyDark, 12.0),
+                                Icon(
+                                  Icons.location_on,
+                                  color: kgreyDark,
+                                  size: 16.0,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -118,11 +130,11 @@ class _BookingMainState extends State<BookingMain> with SingleTickerProviderStat
                         scrollDirection: Axis.horizontal,
                         children: <Widget>[
                           RecommendationImage(
-                              "assets/sheraton.jpg", "Sheraton", "Oran"),
+                              "assets/images/sheraton.jpg", "Sheraton", "Oran"),
                           RecommendationImage(
-                              "assets/Meridien.jpg", "Meridien", "Oran"),
+                              "assets/images/Meridien.jpg", "Meridien", "Oran"),
                           RecommendationImage(
-                              "assets/ibis.jpg", "Ibis", "Oran"),
+                              "assets/images/ibis.jpg", "Ibis", "Oran"),
                         ],
                       ),
                     ),
