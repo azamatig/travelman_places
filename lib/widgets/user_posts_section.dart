@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:travelman/blocs/sign_in_bloc.dart';
+import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/loading_cards.dart';
-import 'package:travelman/widgets/consts_temp.dart';
 import 'package:travelman/widgets/textStyles.dart';
 import 'package:provider/provider.dart';
 

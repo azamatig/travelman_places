@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:travelman/utils/colors.dart';
 import 'package:travelman/widgets/textStyles.dart';
 
-import 'consts_temp.dart';
 
 class RecommendationImage extends StatelessWidget {
   final String imageUrl;
