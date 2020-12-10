@@ -132,6 +132,21 @@
     "equipments": "Equipments",
     "book now": "Book now",
     "trip": "Trips",
-    "About this hotel": "About this hotel"
+    "About this hotel": "About this hotel",
+    "currency": "USD",
+    "best deals": "Best Deals",
+    "origin": "Origin",
+    "destination": "Destination",
+    "search results": "Search results",
+    "something went wrong": "Something went wrong",
+    "flight search": "Flight search",
+    "3 letter IATA code, example: MOW": "3 letter IATA code, example: MOW",
+    "departure": "departure",
+    "return": "return",
+    "passengers": "Passengers",
+    "class": "Class",
+    "Sorry, no tickets available": "Sorry, no tickets available",
+    "search": "Search",
+    "nearby": "Nearby"
 
 }

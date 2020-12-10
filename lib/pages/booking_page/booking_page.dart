@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travelman/pages/booking_page/flights_widget.dart';
 import 'package:travelman/pages/booking_page/hotel_details.dart';
 import 'package:travelman/widgets/consts_temp.dart';
 import 'package:travelman/widgets/recommendImage.dart';
@@ -29,6 +30,7 @@ class _BookingMainState extends State<BookingMain>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: kwhite,
         title:
@@ -52,7 +54,7 @@ class _BookingMainState extends State<BookingMain>
         ),
         body: TabBarView(
           children: <Widget>[
-            Icon(Icons.person),
+            SearchScreen(),
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
