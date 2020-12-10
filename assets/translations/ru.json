@@ -132,5 +132,20 @@
   "equipments": "Удобства",
   "book now": "Забронировать",
   "trip": "Туры",
-  "About this hotel": "Информация о отеле"
+  "About this hotel": "Информация о отеле",
+  "currency": "KZT",
+  "best deals": "Выгодные предложения",
+  "origin": "Откуда",
+  "destination": "Куда",
+  "search results": "Результат поиска",
+  "something went wrong": "Что-то, пошло не так",
+  "flight search": "Поиск билетов",
+  "3 letter IATA code, example: MOW": "3 значный IATA код, пример: MOW",
+  "departure": "Вылет",
+  "return": "Прилет",
+  "passengers": "Пассажиры",
+  "class": "Класс",
+  "Sorry, no tickets available": "Извините, на данный момент билетов нет",
+  "search": "Поиск",
+  "nearby": "Рядом"
 }

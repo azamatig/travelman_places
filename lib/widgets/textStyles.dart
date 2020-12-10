@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travelman/widgets/consts_temp.dart';
 
+// ignore: must_be_immutable
 class BoldText extends StatelessWidget {
   final double size;
   final String text;

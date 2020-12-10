@@ -21,6 +21,31 @@ const red = const Color(0xFFEE604E);
 const blue = const Color(0xFF7D7DE3);
 const unselectedCardColor = const Color(0xFFF6F6F6);
 
+const kPinBlue = Color.fromARGB(255, 57, 90, 255);
+
+const kToken = 'f41230bc222d3528d8909d1def2913d3';
+const kInputDecoration = InputDecoration(
+  hintText: 'Enter your email',
+  contentPadding: EdgeInsets.symmetric(vertical: 10),
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+  ),
+  enabledBorder: OutlineInputBorder(
+    borderSide: BorderSide(
+      color: Colors.grey,
+      width: 1.0,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+  ),
+  focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(
+      color: kPinBlue,
+      width: 2.0,
+    ),
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+  ),
+);
+
 //Textss
 
 const String POPPINS = "Poppins";

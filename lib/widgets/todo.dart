@@ -19,7 +19,7 @@ class TodoWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text('todo',
+        Text('nearby'.tr(),
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w800,

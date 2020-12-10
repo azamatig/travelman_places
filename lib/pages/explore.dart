@@ -12,7 +12,6 @@ import 'package:travelman/blocs/sp_state_one.dart';
 import 'package:travelman/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travelman/config/config.dart';
-import 'package:travelman/pages/booking_page/booking_page.dart';
 import 'package:travelman/pages/chat_screens/chat_screen.dart';
 import 'package:travelman/pages/profile.dart';
 import 'package:travelman/pages/search.dart';
@@ -26,6 +25,8 @@ import 'package:travelman/widgets/special_state1.dart';
 import 'package:travelman/widgets/special_state2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:travelman/widgets/user_posts_section.dart';
+
+import 'booking_page/flights_widget.dart';
 
 class Explore extends StatefulWidget {
   Explore({Key key}) : super(key: key);
@@ -120,7 +121,7 @@ class Header extends StatelessWidget {
               InkWell(
                   onTap: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => BookingMain()));
+                        MaterialPageRoute(builder: (_) => SearchScreen()));
                   },
                   child: Container(
                     height: 50,

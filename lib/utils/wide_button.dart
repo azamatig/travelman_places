@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:travelman/widgets/consts_temp.dart';
 import 'package:travelman/widgets/textStyles.dart';
 
+// ignore: must_be_immutable
 class WideButton extends StatelessWidget {
   final String text;
+  final Color color;
   bool isBold = false;
   final GestureTapCallback onPressed;
-  WideButton(this.text, this.onPressed);
-  WideButton.bold(this.text, this.onPressed, this.isBold);
+  WideButton(this.text, this.onPressed, this.color);
+  WideButton.bold(this.text, this.onPressed, this.isBold, this.color);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,7 @@ class WideButton extends StatelessWidget {
         minWidth: MediaQuery.of(context).size.width * 0.92,
         height: 50,
         child: RaisedButton(
-          color: korange,
+          color: color,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
           child: isBold

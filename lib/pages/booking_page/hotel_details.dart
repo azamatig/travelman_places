@@ -240,10 +240,7 @@ class _HotelOverviewPageState extends State<HotelOverviewPage>
           Positioned(
               bottom: 25,
               left: 15,
-              child: WideButton(
-                "book now".tr(),
-                () {},
-              )),
+              child: WideButton("book now".tr(), () {}, korange)),
         ],
       ),
     );
