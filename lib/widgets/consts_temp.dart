@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travelman/utils/colors.dart';
 
-
-
 const kToken = 'f41230bc222d3528d8909d1def2913d3';
 const kInputDecoration = InputDecoration(
   hintText: 'Enter your email',
