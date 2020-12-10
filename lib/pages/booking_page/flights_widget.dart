@@ -3,13 +3,22 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:travelman/pages/booking_page/booking_info.dart';
+import 'package:travelman/utils/colors.dart';
 import 'package:travelman/widgets/consts_temp.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
+  @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
   String origin;
+
   String destination;
+
   String depDate;
+
   String retDate;
 
   getFlightData(

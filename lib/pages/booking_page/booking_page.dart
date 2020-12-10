@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:travelman/pages/booking_page/flights_widget.dart';
 import 'package:travelman/pages/booking_page/hotel_details.dart';
-import 'package:travelman/widgets/consts_temp.dart';
+import 'package:travelman/utils/colors.dart';
 import 'package:travelman/widgets/recommendImage.dart';
 import 'package:travelman/widgets/textStyles.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -54,7 +53,7 @@ class _BookingMainState extends State<BookingMain>
         ),
         body: TabBarView(
           children: <Widget>[
-            SearchScreen(),
+            Center(child: Text('not implemented yet')),
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),

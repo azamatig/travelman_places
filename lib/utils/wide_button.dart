@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:travelman/widgets/consts_temp.dart';
 import 'package:travelman/widgets/textStyles.dart';
+
+import 'colors.dart';
 
 // ignore: must_be_immutable
 class WideButton extends StatelessWidget {

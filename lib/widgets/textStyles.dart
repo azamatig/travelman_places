@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travelman/widgets/consts_temp.dart';
+import 'package:travelman/utils/colors.dart';
 
 // ignore: must_be_immutable
 class BoldText extends StatelessWidget {
