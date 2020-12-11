@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-final Color buttonColor = Color.fromARGB(255, 255, 213, 0);
-final Color pinBlue = Color.fromARGB(255, 57, 90, 255);
-final Color pinYellow = Color.fromARGB(255, 255, 213, 0);
+final Color kbuttonColor = Color.fromARGB(255, 255, 213, 0);
+final Color kpinYellow = Color.fromARGB(255, 255, 213, 0);
 
 final Color korange = const Color(0xFFFF9933);
 final Color korangelite = const Color(0xFFFFBE83);

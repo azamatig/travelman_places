@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:travelman/data/old_repo.dart';
 import 'package:travelman/models/user.dart';
 import 'package:travelman/pages/chat_screens/chat_details.dart';
+import 'package:travelman/utils/next_screen.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -63,14 +64,13 @@ class _ChatScreenState extends State<ChatScreen> {
               padding: const EdgeInsets.all(8.0),
               child: InkWell(
                 onTap: () {
-                  Navigator.push(
+                  nextScreen(
                       context,
-                      MaterialPageRoute(
-                          builder: ((context) => ChatDetailScreen(
-                                photoUrl: usersList[index].photoUrl,
-                                name: usersList[index].displayName,
-                                receiverUid: usersList[index].uid,
-                              ))));
+                      ChatDetailScreen(
+                        photoUrl: usersList[index].photoUrl,
+                        name: usersList[index].displayName,
+                        receiverUid: usersList[index].uid,
+                      ));
                 },
                 child: ListTile(
                   leading: CircleAvatar(
@@ -125,14 +125,13 @@ class ChatSearch extends SearchDelegate<String> {
       itemBuilder: ((context, index) => ListTile(
             onTap: () {
               //   showResults(context);
-              Navigator.push(
+              nextScreen(
                   context,
-                  MaterialPageRoute(
-                      builder: ((context) => ChatDetailScreen(
-                            photoUrl: suggestionsList[index].photoUrl,
-                            name: suggestionsList[index].displayName,
-                            receiverUid: suggestionsList[index].uid,
-                          ))));
+                  ChatDetailScreen(
+                    photoUrl: suggestionsList[index].photoUrl,
+                    name: suggestionsList[index].displayName,
+                    receiverUid: suggestionsList[index].uid,
+                  ));
             },
             leading: CircleAvatar(
               backgroundImage: NetworkImage(suggestionsList[index].photoUrl),

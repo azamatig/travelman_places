@@ -6,14 +6,14 @@ import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/wide_button.dart';
 
 // ignore: must_be_immutable
-class InfoScreen extends StatelessWidget {
+class TicketInfoScreen extends StatelessWidget {
   final flightDataDecoded;
   final String origin;
   final String destination;
   final String depDate;
   final String retDate;
 
-  InfoScreen(this.flightDataDecoded, this.origin, this.destination,
+  TicketInfoScreen(this.flightDataDecoded, this.origin, this.destination,
       this.depDate, this.retDate);
 
   List<Widget> airfares = [];
@@ -101,7 +101,7 @@ class InfoScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 25),
-            WideButton('book now'.tr(), () {}, pinBlue),
+            WideButton('book now'.tr(), () {}, kPinBlue),
           ],
         ),
       );
