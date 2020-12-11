@@ -73,12 +73,12 @@ class TodoWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'travel guide',
+                            'travel guide'.tr(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15),
-                          ).tr(),
+                          ),
                         ])),
                 onTap: () => nextScreen(context, GuidePage(d: placeData)),
               ),
@@ -111,12 +111,12 @@ class TodoWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'nearby hotels',
+                            'nearby hotels'.tr(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15),
-                          ).tr(),
+                          ),
                         ])),
                 onTap: () => nextScreen(
                     context,
@@ -153,12 +153,12 @@ class TodoWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'nearby restaurants',
+                            'nearby restaurants'.tr(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15),
-                          ).tr(),
+                          ),
                         ])),
                 onTap: () => nextScreen(
                     context,
@@ -195,12 +195,12 @@ class TodoWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'user reviews',
+                            'user reviews'.tr(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15),
-                          ).tr(),
+                          ),
                         ])),
                 onTap: () => nextScreen(
                     context,
@@ -213,7 +213,7 @@ class TodoWidget extends StatelessWidget {
                 child: Container(
                     padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: Colors.purple,
+                      color: Colors.lightBlue,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
@@ -228,7 +228,7 @@ class TodoWidget extends StatelessWidget {
                                 color: Colors.white,
                                 boxShadow: <BoxShadow>[
                                   BoxShadow(
-                                      color: Colors.purple[700],
+                                      color: Colors.lightBlue[700],
                                       offset: Offset(5, 5),
                                       blurRadius: 2)
                                 ]),
@@ -238,14 +238,14 @@ class TodoWidget extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'search tickets',
+                            'search tickets'.tr(),
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15),
-                          ).tr(),
+                          ),
                         ])),
-                onTap: () => nextScreen(context, SearchScreen()),
+                onTap: () => nextScreen(context, TicketSearchScreen()),
               ),
               InkWell(
                 child: Container(
@@ -271,7 +271,7 @@ class TodoWidget extends StatelessWidget {
                                       blurRadius: 2)
                                 ]),
                             child: Icon(
-                              LineIcons.ticket,
+                              LineIcons.hotel,
                               size: 30,
                             ),
                           ),

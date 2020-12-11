@@ -36,7 +36,7 @@ class _HotelOverviewPageState extends State<HotelOverviewPage>
                   appBar: TabBar(
                     labelColor: kdarkBlue,
                     labelStyle: TextStyle(
-                        fontFamily: "nunito", fontWeight: FontWeight.bold),
+                        fontFamily: "Muli", fontWeight: FontWeight.bold),
                     controller: tabController,
                     indicatorColor: kdarkBlue,
                     tabs: <Widget>[

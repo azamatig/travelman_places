@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:travelman/pages/booking_page/hotel_details.dart';
 import 'package:travelman/utils/colors.dart';
+import 'package:travelman/utils/next_screen.dart';
 import 'package:travelman/widgets/recommendImage.dart';
 import 'package:travelman/widgets/textStyles.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,7 +18,7 @@ class _BookingMainState extends State<BookingMain>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -46,14 +47,12 @@ class _BookingMainState extends State<BookingMain>
           controller: tabController,
           indicatorColor: kdarkBlue,
           tabs: <Widget>[
-            Tab(text: "flights".tr()),
             Tab(text: "hotels".tr()),
             Tab(text: "trip".tr()),
           ],
         ),
         body: TabBarView(
           children: <Widget>[
-            Center(child: Text('not implemented yet')),
             SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -72,10 +71,7 @@ class _BookingMainState extends State<BookingMain>
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => HotelOverviewPage()));
+                        nextScreen(context, HotelOverviewPage());
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width - 80,

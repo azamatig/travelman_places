@@ -120,8 +120,7 @@ class Header extends StatelessWidget {
               Spacer(),
               InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => SearchScreen()));
+                    nextScreen(context, TicketSearchScreen());
                   },
                   child: Container(
                     height: 50,
@@ -134,8 +133,7 @@ class Header extends StatelessWidget {
                   )),
               InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => ChatScreen()));
+                    nextScreen(context, ChatScreen());
                   },
                   child: Container(
                     height: 50,
@@ -148,8 +146,7 @@ class Header extends StatelessWidget {
                   )),
               InkWell(
                   onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => PostUploader()));
+                    nextScreen(context, PostUploader());
                   },
                   child: Container(
                     height: 50,
@@ -226,8 +223,7 @@ class Header extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SearchPage()));
+              nextScreen(context, SearchPage());
             },
           )
         ],

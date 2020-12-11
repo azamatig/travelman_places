@@ -4,15 +4,16 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:travelman/pages/booking_page/booking_info.dart';
 import 'package:travelman/utils/colors.dart';
+import 'package:travelman/utils/next_screen.dart';
 import 'package:travelman/widgets/consts_temp.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class SearchScreen extends StatefulWidget {
+class TicketSearchScreen extends StatefulWidget {
   @override
-  _SearchScreenState createState() => _SearchScreenState();
+  _TicketSearchScreenState createState() => _TicketSearchScreenState();
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _TicketSearchScreenState extends State<TicketSearchScreen> {
   String origin;
 
   String destination;
@@ -132,12 +133,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     showAlertDialog(
                         context, 'Sorry, no tickets available'.tr());
                   } else {
-                    Navigator.push(
+                    nextScreen(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => InfoScreen(flightDataDecoded,
-                            origin, destination, depDate, retDate),
-                      ),
+                      TicketInfoScreen(flightDataDecoded, origin, destination,
+                          depDate, retDate),
                     );
                   }
                 },
