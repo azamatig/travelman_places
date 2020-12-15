@@ -84,8 +84,6 @@
 
 Travelman Main App
 
-
-
 ### Built With
 
 * [Flutter](https://github.com/flutter/flutter)
@@ -111,7 +109,7 @@ This is an example of how to list things you need to use the software and how to
   ```
 3. Build
    ```sh
-   flutter build web
+   flutter build apk
    ```
 
 ### Installation
@@ -174,7 +172,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Your Name - [@SinTetris](https://twitter.com/@SinTetris) - azebaev87@gmail.com
 
-Project Link: [Travelman Admin Panel](https://github.com/azamatig/travelman_places)
+Project Link: [Travelman Main App](https://github.com/azamatig/travelman_places)
 
 
 
