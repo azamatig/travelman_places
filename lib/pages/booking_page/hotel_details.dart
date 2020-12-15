@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/wide_button.dart';
 import 'package:travelman/widgets/textStyles.dart';
@@ -26,12 +27,28 @@ class _HotelOverviewPageState extends State<HotelOverviewPage>
                 child: Image.asset("assets/images/hotel.jpg")),
           ),
           Positioned(
-            top: 200.0,
+            top: 50,
+            left: 15,
+            child: CircleAvatar(
+              backgroundColor: Colors.blue.withOpacity(0.9),
+              child: IconButton(
+                icon: Icon(
+                  LineIcons.arrow_left,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ),
+          Positioned(
+            top: 300.0,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Container(
                 width: MediaQuery.of(context).size.width,
-                height: 400,
+                height: 380,
                 child: Scaffold(
                   appBar: TabBar(
                     labelColor: kdarkBlue,
@@ -227,7 +244,7 @@ class _HotelOverviewPageState extends State<HotelOverviewPage>
                       ),
                     ],
                   ),
-
+// Нахуя это нужно, не помню
                   /*Stack(
                     children: <Widget>[
                       Image.asset("assets/hotel.jpg"),

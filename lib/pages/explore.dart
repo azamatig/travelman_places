@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travelman/blocs/featured_bloc.dart';
 import 'package:travelman/blocs/popular_places_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:travelman/blocs/sp_state_one.dart';
 import 'package:travelman/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travelman/config/config.dart';
+import 'package:travelman/pages/booking_page/booking_page.dart';
 import 'package:travelman/pages/chat_screens/chat_screen.dart';
 import 'package:travelman/pages/profile.dart';
 import 'package:travelman/pages/search.dart';
@@ -21,10 +23,7 @@ import 'package:travelman/widgets/featured_places.dart';
 import 'package:travelman/widgets/popular_places.dart';
 import 'package:travelman/widgets/recent_places.dart';
 import 'package:travelman/widgets/recommended_places.dart';
-import 'package:travelman/widgets/special_state1.dart';
-import 'package:travelman/widgets/special_state2.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:travelman/widgets/user_posts_section.dart';
 
 import 'booking_page/flights_widget.dart';
 
@@ -69,10 +68,10 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
                   Header(),
                   Featured(),
                   PopularPlaces(),
-                  UserPostSection(),
+                  //       UserPostSection(),
                   RecentPlaces(),
-                  SpecialStateOne(),
-                  SpecialStateTwo(),
+                  //       SpecialStateOne(),
+                  //       SpecialStateTwo(),
                   RecommendedPlaces()
                 ],
               ),
@@ -133,7 +132,7 @@ class Header extends StatelessWidget {
                   )),
               InkWell(
                   onTap: () {
-                    nextScreen(context, ChatScreen());
+                    nextScreen(context, BookingMain());
                   },
                   child: Container(
                     height: 50,
@@ -142,21 +141,44 @@ class Header extends StatelessWidget {
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(FontAwesome.send, size: 18),
+                    child: Icon(LineIcons.hotel, size: 18),
                   )),
-              InkWell(
-                  onTap: () {
-                    nextScreen(context, PostUploader());
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.add, size: 28),
-                  )),
+              // its temporary ignore this
+              sb.email == 'astanatom2017@gmail.com' ||
+                      sb.email == 'bvisiondoc@gmail.com' ||
+                      sb.email == 'azerbaev87@gmail.com'
+                  ? InkWell(
+                      onTap: () {
+                        nextScreen(context, ChatScreen());
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(FontAwesome.send, size: 18),
+                      ))
+                  : SizedBox(),
+              // its temporary ignore this
+              sb.email == 'astanatom2017@gmail.com' ||
+                      sb.email == 'bvisiondoc@gmail.com' ||
+                      sb.email == 'azerbaev87@gmail.com'
+                  ? InkWell(
+                      onTap: () {
+                        nextScreen(context, PostUploader());
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(Icons.add, size: 28),
+                      ))
+                  : SizedBox(),
               SizedBox(
                 width: 10,
               ),

@@ -65,6 +65,9 @@ class SignInBloc extends ChangeNotifier {
   String _packageName = '';
   String get packageName => _packageName;
 
+  bool _isAdmin;
+  bool get isAdmin => _isAdmin;
+
   void initPackageInfo() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     _appVersion = packageInfo.version;
