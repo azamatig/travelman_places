@@ -144,41 +144,33 @@ class Header extends StatelessWidget {
                     child: Icon(LineIcons.hotel, size: 18),
                   )),
               // its temporary ignore this
-              sb.email == 'astanatom2017@gmail.com' ||
-                      sb.email == 'bvisiondoc@gmail.com' ||
-                      sb.email == 'azerbaev87@gmail.com'
-                  ? InkWell(
-                      onTap: () {
-                        nextScreen(context, ChatScreen());
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(FontAwesome.send, size: 18),
-                      ))
-                  : SizedBox(),
+              InkWell(
+                  onTap: () {
+                    nextScreen(context, ChatScreen());
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(FontAwesome.send, size: 18),
+                  )),
               // its temporary ignore this
-              sb.email == 'astanatom2017@gmail.com' ||
-                      sb.email == 'bvisiondoc@gmail.com' ||
-                      sb.email == 'azerbaev87@gmail.com'
-                  ? InkWell(
-                      onTap: () {
-                        nextScreen(context, PostUploader());
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(Icons.add, size: 28),
-                      ))
-                  : SizedBox(),
+              InkWell(
+                  onTap: () {
+                    nextScreen(context, PostUploader());
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.add, size: 28),
+                  )),
               SizedBox(
                 width: 10,
               ),
@@ -248,56 +240,6 @@ class Header extends StatelessWidget {
               nextScreen(context, SearchPage());
             },
           )
-        ],
-      ),
-    );
-  }
-}
-
-class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //color: Colors.green,
-      padding: EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 15),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                Config().appName,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey[700]),
-              ),
-              Text(
-                'Explore ${Config().countryName}',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600]),
-              )
-            ],
-          ),
-          Spacer(),
-          IconButton(
-              icon: Icon(
-                Feather.bell,
-                size: 20,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: Icon(
-                Feather.search,
-                size: 20,
-              ),
-              onPressed: () {})
         ],
       ),
     );
