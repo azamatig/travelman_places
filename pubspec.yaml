@@ -65,6 +65,7 @@ dependencies:
   uuid: ^2.0.4
   dotted_line: ^2.0.2
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

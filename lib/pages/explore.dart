@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travelman/blocs/featured_bloc.dart';
 import 'package:travelman/blocs/popular_places_bloc.dart';
@@ -12,6 +13,7 @@ import 'package:travelman/blocs/sp_state_one.dart';
 import 'package:travelman/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travelman/config/config.dart';
+import 'package:travelman/pages/booking_page/booking_page.dart';
 import 'package:travelman/pages/chat_screens/chat_screen.dart';
 import 'package:travelman/pages/profile.dart';
 import 'package:travelman/pages/search.dart';
@@ -21,10 +23,7 @@ import 'package:travelman/widgets/featured_places.dart';
 import 'package:travelman/widgets/popular_places.dart';
 import 'package:travelman/widgets/recent_places.dart';
 import 'package:travelman/widgets/recommended_places.dart';
-import 'package:travelman/widgets/special_state1.dart';
-import 'package:travelman/widgets/special_state2.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:travelman/widgets/user_posts_section.dart';
 
 import 'booking_page/flights_widget.dart';
 
@@ -69,10 +68,10 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
                   Header(),
                   Featured(),
                   PopularPlaces(),
-                  UserPostSection(),
+                  //       UserPostSection(),
                   RecentPlaces(),
-                  SpecialStateOne(),
-                  SpecialStateTwo(),
+                  //       SpecialStateOne(),
+                  //       SpecialStateTwo(),
                   RecommendedPlaces()
                 ],
               ),
@@ -133,6 +132,20 @@ class Header extends StatelessWidget {
                   )),
               InkWell(
                   onTap: () {
+                    nextScreen(context, BookingMain());
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(LineIcons.hotel, size: 18),
+                  )),
+              // its temporary ignore this
+              InkWell(
+                  onTap: () {
                     nextScreen(context, ChatScreen());
                   },
                   child: Container(
@@ -144,6 +157,7 @@ class Header extends StatelessWidget {
                     ),
                     child: Icon(FontAwesome.send, size: 18),
                   )),
+              // its temporary ignore this
               InkWell(
                   onTap: () {
                     nextScreen(context, PostUploader());
@@ -226,56 +240,6 @@ class Header extends StatelessWidget {
               nextScreen(context, SearchPage());
             },
           )
-        ],
-      ),
-    );
-  }
-}
-
-class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //color: Colors.green,
-      padding: EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 15),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                Config().appName,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey[700]),
-              ),
-              Text(
-                'Explore ${Config().countryName}',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600]),
-              )
-            ],
-          ),
-          Spacer(),
-          IconButton(
-              icon: Icon(
-                Feather.bell,
-                size: 20,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: Icon(
-                Feather.search,
-                size: 20,
-              ),
-              onPressed: () {})
         ],
       ),
     );
