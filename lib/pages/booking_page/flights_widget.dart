@@ -22,12 +22,32 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
 
   String retDate;
 
+  List<Widget> popularRoutes = [];
+
   getFlightData(
       String origin, String destination, String depDate, String retDate) async {
     var flightData = await http.get(
         'https://api.travelpayouts.com/v1/prices/cheap?origin=$origin&destination=$destination&depart_date=$depDate&return_date=$retDate&token=$kToken&currency=KZT');
     var flightDataDecoded = jsonDecode(flightData.body);
     return flightDataDecoded;
+  }
+
+  createPopularRoutes() async {
+    var routesDataDecoded = await getPopularRoutes();
+    routesDataDecoded["data"].forEach(
+        (k,v){
+          Widget popularRoute = PopularRoute(k, v);
+          setState(() {
+            popularRoutes.add(popularRoute);
+          });
+        }
+    );
+  }
+
+  getPopularRoutes() async {
+    var routesData = await http.get('https://api.travelpayouts.com/v1/airline-directions?&limit=5&token=f41230bc222d3528d8909d1def2913d3');
+    var routesDataDecoded = jsonDecode(routesData.body);
+    return routesDataDecoded;
   }
 
   showAlertDialog(BuildContext context, String info) {
@@ -58,6 +78,12 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    createPopularRoutes();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -71,89 +97,110 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
       ),
       resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: EdgeInsets.fromLTRB(25, 30, 25, 0),
-        child: Column(
+        padding: EdgeInsets.fromLTRB(25, 30, 25, 15),
+        child: ListView(
           children: [
             Column(
               children: [
-                InfoTextField('origin'.tr(), (newVal) {
-                  origin = newVal;
-                }, '3 letter IATA code, example: MOW'.tr()),
-                SizedBox(height: 16),
-                InfoTextField(
-                  'destination'.tr(),
-                  (newVal) {
-                    destination = newVal;
-                  },
-                  '3 letter IATA code, example: MOW'.tr(),
-                ),
-                SizedBox(height: 16),
-                Row(
+                Column(
                   children: [
-                    Expanded(
-                      child: InfoTextField('departure'.tr(), (newVal) {
-                        depDate = newVal;
-                      }, 'yyyy-mm-dd'),
+                    InfoTextField('origin'.tr(), (newVal) {
+                      origin = newVal;
+                    }, '3 letter IATA code, example: MOW'.tr()),
+                    SizedBox(height: 16),
+                    InfoTextField(
+                      'destination'.tr(),
+                      (newVal) {
+                        destination = newVal;
+                      },
+                      '3 letter IATA code, example: MOW'.tr(),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: InfoTextField('return'.tr(), (newVal) {
-                        retDate = newVal;
-                        print(origin);
-                      }, 'yyyy-mm-dd'),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InfoTextField('departure'.tr(), (newVal) {
+                            depDate = newVal;
+                          }, 'yyyy-mm-dd'),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: InfoTextField('return'.tr(), (newVal) {
+                            retDate = newVal;
+                            print(origin);
+                          }, 'yyyy-mm-dd'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InfoTextField('passengers'.tr(), null, null),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: InfoTextField('class'.tr(), null, null),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: InfoTextField('passengers'.tr(), null, null),
+                SizedBox(height: 32),
+                Material(
+                  elevation: 5.0,
+                  color: kPinBlue,
+                  borderRadius: BorderRadius.circular(8),
+                  child: MaterialButton(
+                    onPressed: () async {
+                      var flightDataDecoded = await getFlightData(
+                          origin, destination, depDate, retDate);
+                      if (flightDataDecoded["success"] == false) {
+                        showAlertDialog(context, flightDataDecoded["error"]);
+                      } else if (flightDataDecoded["data"].length == 0) {
+                        showAlertDialog(
+                            context, 'Sorry, no tickets available'.tr());
+                      } else {
+                        nextScreen(
+                          context,
+                          TicketInfoScreen(flightDataDecoded, origin,
+                              destination, depDate, retDate),
+                        );
+                      }
+                    },
+                    minWidth: double.infinity,
+                    height: 60,
+                    child: Text(
+                      'search'.tr(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                      ),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: InfoTextField('class'.tr(), null, null),
-                    ),
-                  ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Popular routes:'.tr(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
               ],
             ),
-            SizedBox(height: 32),
-            Material(
-              elevation: 5.0,
-              color: kPinBlue,
-              borderRadius: BorderRadius.circular(8),
-              child: MaterialButton(
-                onPressed: () async {
-                  var flightDataDecoded = await getFlightData(
-                      origin, destination, depDate, retDate);
-                  if (flightDataDecoded["success"] == false) {
-                    showAlertDialog(context, flightDataDecoded["error"]);
-                  } else if (flightDataDecoded["data"].length == 0) {
-                    showAlertDialog(
-                        context, 'Sorry, no tickets available'.tr());
-                  } else {
-                    nextScreen(
-                      context,
-                      TicketInfoScreen(flightDataDecoded, origin, destination,
-                          depDate, retDate),
-                    );
-                  }
-                },
-                minWidth: double.infinity,
-                height: 60,
-                child: Text(
-                  'search'.tr(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                  ),
-                ),
-              ),
-            ),
             SizedBox(
-              height: 20,
+              height: 50,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: popularRoutes.length,
+                itemBuilder: (context, index) {
+                  return popularRoutes[index];
+                },
+              ),
             ),
           ],
         ),
@@ -161,6 +208,44 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
     );
   }
 }
+
+class PopularRoute extends StatelessWidget {
+  final route;
+  final price;
+  PopularRoute(this.route, this.price);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Material(
+          elevation: 5.0,
+          child: Container(
+            height: 200,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('$route: '),
+                Text(
+                  '$price\$',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            padding:
+            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+          ),
+        ),
+        SizedBox(width: 15,),
+      ],
+    );
+  }
+}
+
 
 class InfoTextField extends StatelessWidget {
   final String hintText;
