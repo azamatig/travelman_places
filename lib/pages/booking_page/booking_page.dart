@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +10,8 @@ import 'package:travelman/utils/wide_button.dart';
 import 'package:travelman/widgets/recommendImage.dart';
 import 'package:travelman/widgets/textStyles.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:travelman/pages/hotel_cards.dart';
 import 'flights_widget.dart';
 
 class BookingMain extends StatefulWidget {
@@ -44,6 +47,26 @@ class _BookingMainState extends State<BookingMain>
       setState(() {
         selectedArrDate = picked;
       });
+  }
+
+  getHotelInfo(String country, String depDate, String arrDate) async {
+    var hotelData = await http.get(
+        'http://engine.hotellook.com/api/v2/cache.json?location=$country&checkIn=$depDate&checkOut=$arrDate&currency=usd&limit=1&token=f41230bc222d3528d8909d1def2913d3');
+    var hotelDataDecoded = jsonDecode(hotelData.body);
+    return hotelDataDecoded;
+  }
+
+  Future<List<String>> getHotelPics(var hotelsInfo) async {
+    List<String> picUrls = [];
+    for (var v in hotelsInfo) {
+      var hotelId = v["hotelId"].toString();
+      var picIds = await http.get(
+          'https://yasen.hotellook.com/photos/hotel_photos?id=$hotelId');
+      var picIdsDecoded = jsonDecode(picIds.body);
+      var picUrl = 'https://photo.hotellook.com/image_v2/limit/${picIdsDecoded[hotelId][0]}/800/520.auto';
+      picUrls.add(picUrl);
+    }
+    return picUrls;
   }
 
   @override
@@ -155,7 +178,15 @@ class _BookingMainState extends State<BookingMain>
               SizedBox(
                 height: 16,
               ),
-              WideButton('Искать', () {}, kPinBlue),
+              WideButton(
+                'Искать',
+                () async {
+                  var hotelDataDecoded = await getHotelInfo(country, selectedDepDate.toString().substring(0, 10), selectedArrDate.toString().substring(0, 10));
+                  var picList = await getHotelPics(hotelDataDecoded);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelCards(hotelDataDecoded, picList)));
+                },
+                kPinBlue,
+              ),
               SizedBox(
                 height: 16,
               ),
