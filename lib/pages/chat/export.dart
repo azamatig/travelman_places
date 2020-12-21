@@ -1,0 +1,22 @@
+library chat_module;
+
+export 'common/image_full_view.dart';
+export 'common/img_source_selector.dart';
+export 'common/network_img.dart';
+export 'core/export.dart';
+export 'app/module.dart';
+export 'auth/domain/entities/user.dart';
+export 'auth/domain/repository/user_repo.dart';
+export 'auth/module.dart';
+export 'auth/presentation/auth/controller.dart';
+export 'notifications/domain/entities/user_navigation_tracker.dart';
+export 'notifications/presentation/controller.dart';
+export 'data/repository.dart';
+export 'domain/entities/chat.dart';
+export 'domain/entities/message.dart';
+export 'domain/repository/chat_repo.dart';
+export 'module.dart';
+export 'presentation/chats/controller.dart';
+export 'presentation/chats/index.dart';
+export 'presentation/conversation/controller.dart';
+export 'presentation/conversation/index.dart';

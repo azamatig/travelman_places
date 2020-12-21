@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:travelman/blocs/featured_bloc.dart';
@@ -14,7 +15,6 @@ import 'package:travelman/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travelman/config/config.dart';
 import 'package:travelman/pages/booking_page/booking_page.dart';
-import 'package:travelman/pages/chat_screens/chat_screen.dart';
 import 'package:travelman/pages/profile.dart';
 import 'package:travelman/pages/search.dart';
 import 'package:travelman/pages/user_posts/user_post_uploader.dart';
@@ -26,6 +26,7 @@ import 'package:travelman/widgets/recommended_places.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'booking_page/flights_widget.dart';
+import 'chat/app/module.dart';
 
 class Explore extends StatefulWidget {
   Explore({Key key}) : super(key: key);
@@ -146,7 +147,7 @@ class Header extends StatelessWidget {
               // its temporary ignore this
               InkWell(
                   onTap: () {
-                    nextScreen(context, ChatScreen());
+                    nextScreen(context, ModularApp(module: AppModule()));
                   },
                   child: Container(
                     height: 50,
