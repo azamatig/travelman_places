@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 class HotelCards extends StatelessWidget {
   final hotelsInfo;
+  final String depDate;
+  final String arrDate;
   final picList;
-  HotelCards(this.hotelsInfo, this.picList);
-
+  HotelCards(this.hotelsInfo, this.picList, this.depDate, this.arrDate);
   List<Widget> hotelCards = [];
 
   void createCards() {
     int i = 0;
     for (var v in hotelsInfo) {
-      Widget hotelCard = HotelCardWidget(picList[i], '${v["location"]["name"]} - ${v["location"]["country"]}', v["priceFrom"].round().toString(), v["hotelName"]);
+      Widget hotelCard = HotelCardWidget(picList[i], '${v["location"]["name"]} - ${v["location"]["country"]}',
+          v["priceFrom"].round().toString(), v["hotelName"], depDate, arrDate);
       hotelCards.add(hotelCard);
       i++;
     }
@@ -63,13 +67,18 @@ class HotelCards extends StatelessWidget {
 }
 
 class HotelCardWidget extends StatelessWidget {
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final String imageUrl;
   final String country;
   final String price;
   final String hotelName;
+  final String depDate;
+  final String arrDate;
+  
+  HotelCardWidget(this.imageUrl, this.country, this.price,
+      this.hotelName, this.depDate, this.arrDate);
 
-  HotelCardWidget(this.imageUrl, this.country, this.price, this.hotelName);
-
+  
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -128,7 +137,16 @@ class HotelCardWidget extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward),
                               color: Colors.black,
                               onPressed: (){
-
+                                firestore.collection('Booking').add({
+                                  'hotelName': hotelName,
+                                  'price': price,
+                                  'depDate': depDate,
+                                  'arrDate': arrDate,
+                                  'imageUrl': imageUrl,
+                                  'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+                                });
+                                //implement toast
+                                Navigator.pop(context);
                               },
                             ),
                           ],

@@ -181,9 +181,13 @@ class _BookingMainState extends State<BookingMain>
               WideButton(
                 'Искать',
                 () async {
-                  var hotelDataDecoded = await getHotelInfo(country, selectedDepDate.toString().substring(0, 10), selectedArrDate.toString().substring(0, 10));
+                  String depDateAsString = selectedDepDate.toString().substring(0, 10);
+                  String arrDateAsString = selectedArrDate.toString().substring(0, 10);
+                  var hotelDataDecoded = await getHotelInfo(country, depDateAsString, arrDateAsString);
                   var picList = await getHotelPics(hotelDataDecoded);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HotelCards(hotelDataDecoded, picList)));
+                  Navigator.push(context, MaterialPageRoute(builder:
+                      (context) => HotelCards(hotelDataDecoded, picList,
+                          depDateAsString, arrDateAsString)));
                 },
                 kPinBlue,
               ),
