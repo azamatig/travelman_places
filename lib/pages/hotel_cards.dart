@@ -137,13 +137,14 @@ class HotelCardWidget extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward),
                               color: Colors.black,
                               onPressed: (){
-                                firestore.collection('Booking').add({
+                                String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+                                firestore.collection('Booking').doc(timestamp).set({
                                   'hotelName': hotelName,
                                   'price': price,
                                   'depDate': depDate,
                                   'arrDate': arrDate,
                                   'imageUrl': imageUrl,
-                                  'timestamp': DateTime.now().millisecondsSinceEpoch.toString(),
+                                  'timestamp': timestamp,
                                 });
                                 //implement toast
                                 Navigator.pop(context);
