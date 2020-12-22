@@ -185,6 +185,7 @@ flutter:
     - assets/images/loading.gif
     - assets/images/blurred_pic.jpg
     - assets/translations/
+    - assets/images/nature/
 
   fonts:
 

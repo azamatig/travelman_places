@@ -24,8 +24,8 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
 
   List<Widget> popularRoutes = [];
 
-  getFlightData(
-      String origin, String destination, String depDate, String retDate) async {
+  getFlightData(String origin, String destination, String depDate,
+      String retDate) async {
     var flightData = await http.get(
         'https://api.travelpayouts.com/v1/prices/cheap?origin=$origin&destination=$destination&depart_date=$depDate&return_date=$retDate&token=$kToken&currency=KZT');
     var flightDataDecoded = jsonDecode(flightData.body);
@@ -34,9 +34,11 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
 
   createPopularRoutes() async {
     var routesDataDecoded = await getPopularRoutes();
+    int currentImg = 1;
     routesDataDecoded["data"].forEach(
-        (k,v){
-          Widget popularRoute = PopularRoute(k, v);
+            (k, v) {
+          Widget popularRoute = PopularRoute(k, v, currentImg);
+          currentImg++;
           setState(() {
             popularRoutes.add(popularRoute);
           });
@@ -45,7 +47,8 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
   }
 
   getPopularRoutes() async {
-    var routesData = await http.get('https://api.travelpayouts.com/v1/airline-directions?&limit=5&token=f41230bc222d3528d8909d1def2913d3');
+    var routesData = await http.get(
+        'https://api.travelpayouts.com/v1/airline-directions?&limit=5&token=f41230bc222d3528d8909d1def2913d3');
     var routesDataDecoded = jsonDecode(routesData.body);
     return routesDataDecoded;
   }
@@ -110,7 +113,7 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
                     SizedBox(height: 16),
                     InfoTextField(
                       'destination'.tr(),
-                      (newVal) {
+                          (newVal) {
                         destination = newVal;
                       },
                       '3 letter IATA code, example: MOW'.tr(),
@@ -193,7 +196,7 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
               ],
             ),
             SizedBox(
-              height: 50,
+              height: 200,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: popularRoutes.length,
@@ -212,35 +215,43 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
 class PopularRoute extends StatelessWidget {
   final route;
   final price;
-  PopularRoute(this.route, this.price);
+  final imgNum;
+
+  PopularRoute(this.route, this.price, this.imgNum);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Material(
-          elevation: 5.0,
-          child: Container(
-            height: 200,
-            child: Row(
+        Container(
+            width: 150,
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('$route: '),
+                Text('$route: ',
+                  style: TextStyle(fontWeight: FontWeight.bold,
+                    color: Colors.white, fontSize: 18),),
                 Text(
-                  '$price\$',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  '$price₽',
+                  style: TextStyle(fontWeight: FontWeight.bold,
+                      color: Colors.white, fontSize: 22),
                 ),
               ],
             ),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-              borderRadius: BorderRadius.circular(4),
+              //border: Border.all(color: Colors.black),
+              borderRadius: BorderRadius.circular(7),
+              image: DecorationImage(
+                image: AssetImage(
+                  "assets/images/nature/poproute$imgNum.jpg",
+                ),
+                fit: BoxFit.cover,
+              ),
             ),
             padding:
-            EdgeInsets.symmetric(horizontal: 5, vertical: 0),
-          ),
+            EdgeInsets.fromLTRB(5, 90, 5, 8)
         ),
-        SizedBox(width: 15,),
+        SizedBox(width: 20,),
       ],
     );
   }
