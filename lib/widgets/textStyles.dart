@@ -14,6 +14,7 @@ class BoldText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text,
+        textAlign: TextAlign.center,
         style: TextStyle(
             fontFamily: "nunito",
             fontWeight: isVeryBold ? FontWeight.w900 : FontWeight.w700,

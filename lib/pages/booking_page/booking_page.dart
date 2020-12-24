@@ -24,6 +24,55 @@ class _BookingMainState extends State<BookingMain>
   DateTime selectedDepDate = DateTime.now();
   DateTime selectedArrDate = DateTime.now();
   String country;
+  var picList;
+  var currentDealsJson;
+  List<Widget> currentDeals = [];
+  List<String> currentDealsPicsUrls = [];
+
+  getBookingMainInfo(String latitude, String longitude) async {
+    var bookingPageData = await http.get(
+        'http://engine.hotellook.com/api/v2/lookup.json?query=$latitude,$longitude&lang=en&lookFor=both&limit=5&token=f41230bc222d3528d8909d1def2913d3');
+    var bookingPageDataDecoded = jsonDecode(bookingPageData.body);
+    // setState(() {
+    currentDealsJson = bookingPageDataDecoded;
+    //});
+  }
+
+  getCurrentDealsPicsUrls(var bookingPageDataDecoded) async {
+    List<String> picUrls = [];
+    for (var v in bookingPageDataDecoded["results"]["hotels"]) {
+      var hotelId = v["id"].toString();
+      var picIds = await http
+          .get('https://yasen.hotellook.com/photos/hotel_photos?id=$hotelId');
+      var picIdsDecoded = jsonDecode(picIds.body);
+      var picUrl =
+          'https://photo.hotellook.com/image_v2/limit/${picIdsDecoded[hotelId][0]}/800/520.auto';
+      picUrls.add(picUrl);
+    }
+    // setState(() {
+    picList = picUrls;
+    // });
+  }
+
+  generateCurrentDealWidgets() {
+    int piclistIndex = 0;
+    for (var v in currentDealsJson["results"]["hotels"]) {
+      Widget currentDeal = InkWell(
+        onTap: () {
+          nextScreen(context, HotelOverviewPage());
+        },
+        child: RecommendationImage(
+          picList[piclistIndex],
+          v["name"],
+          currentDealsJson["results"]["locations"][0]["name"],
+        ),
+      );
+      piclistIndex++;
+      setState(() {
+        currentDeals.add(currentDeal);
+      });
+    }
+  }
 
   Future<Null> _selectDepDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -49,29 +98,15 @@ class _BookingMainState extends State<BookingMain>
       });
   }
 
-  getHotelInfo(String country, String depDate, String arrDate) async {
-    var hotelData = await http.get(
-        'http://engine.hotellook.com/api/v2/cache.json?location=$country&checkIn=$depDate&checkOut=$arrDate&currency=usd&limit=1&token=f41230bc222d3528d8909d1def2913d3');
-    var hotelDataDecoded = jsonDecode(hotelData.body);
-    return hotelDataDecoded;
-  }
-
-  Future<List<String>> getHotelPics(var hotelsInfo) async {
-    List<String> picUrls = [];
-    for (var v in hotelsInfo) {
-      var hotelId = v["hotelId"].toString();
-      var picIds = await http.get(
-          'https://yasen.hotellook.com/photos/hotel_photos?id=$hotelId');
-      var picIdsDecoded = jsonDecode(picIds.body);
-      var picUrl = 'https://photo.hotellook.com/image_v2/limit/${picIdsDecoded[hotelId][0]}/800/520.auto';
-      picUrls.add(picUrl);
-    }
-    return picUrls;
-  }
-
   @override
   void initState() {
     super.initState();
+    getBookingMainInfo('53.408777', '-2.981006').then((value) {
+      getCurrentDealsPicsUrls(currentDealsJson).then((value) {
+        generateCurrentDealWidgets();
+        print('done');
+      });
+    });
   }
 
   @override
@@ -90,188 +125,162 @@ class _BookingMainState extends State<BookingMain>
         centerTitle: true,
         elevation: 0.0,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              InfoTextField('search for places'.tr(), (newVal) {
-                country = newVal;
-              }, 'Name of the city'.tr()),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  Container(
-                    height: 45,
-                    width: 185,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(width: 1, color: Colors.grey)),
-                    child: GestureDetector(
-                      onTap: () => _selectDepDate(context),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.calendarAlt,
-                              color: Colors.black45,
-                              size: 20,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Въезд " +
-                                  "${selectedDepDate.toLocal()}".split(' ')[0],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  color: Colors.grey[500]),
-                            ),
-                          ],
-                        ),
-                      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: [
+                    InfoTextField('search for places'.tr(), (newVal) {
+                      country = newVal;
+                    }, 'Name of the city'.tr()),
+                    SizedBox(
+                      height: 15,
                     ),
-                  ),
-                  SizedBox(
-                    width: 21,
-                  ),
-                  Container(
-                    height: 45,
-                    width: 185,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(width: 1, color: Colors.grey)),
-                    child: GestureDetector(
-                      onTap: () => _selectArrDate(context),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 8.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              FontAwesomeIcons.calendarAlt,
-                              color: Colors.black45,
-                              size: 20,
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 45,
+                            width: 185,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border:
+                                    Border.all(width: 1, color: Colors.grey)),
+                            child: GestureDetector(
+                              onTap: () => _selectDepDate(context),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.calendarAlt,
+                                      color: Colors.black45,
+                                      size: 20,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "Въезд " +
+                                          "${selectedDepDate.toLocal()}"
+                                              .split(' ')[0],
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          color: Colors.grey[500]),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              "Выезд " +
-                                  "${selectedArrDate.toLocal()}".split(' ')[0],
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 14,
-                                  color: Colors.grey[500]),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              WideButton(
-                'Искать',
-                () async {
-                  String depDateAsString = selectedDepDate.toString().substring(0, 10);
-                  String arrDateAsString = selectedArrDate.toString().substring(0, 10);
-                  var hotelDataDecoded = await getHotelInfo(country, depDateAsString, arrDateAsString);
-                  var picList = await getHotelPics(hotelDataDecoded);
-                  Navigator.push(context, MaterialPageRoute(builder:
-                      (context) => HotelCards(hotelDataDecoded, picList,
-                          depDateAsString, arrDateAsString)));
-                },
-                kPinBlue,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  BoldText("current deals".tr(), 20.0, kblack),
-                  BoldText("more".tr(), 16, kdarkBlue),
-                ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              InkWell(
-                onTap: () {
-                  nextScreen(context, HotelOverviewPage());
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width - 80,
-                  height: 250,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width - 80,
-                        height: 200.0,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
+                        SizedBox(
+                          width: 21,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            height: 45,
+                            width: 185,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border:
+                                    Border.all(width: 1, color: Colors.grey)),
+                            child: GestureDetector(
+                              onTap: () => _selectArrDate(context),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.calendarAlt,
+                                      color: Colors.black45,
+                                      size: 20,
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      "Выезд " +
+                                          "${selectedArrDate.toLocal()}"
+                                              .split(' ')[0],
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14,
+                                          color: Colors.grey[500]),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            child: Image.asset(
-                              "assets/images/sheraton.jpg",
-                              fit: BoxFit.fitHeight,
-                            )),
-                      ),
-                      BoldText("sheraton", 20.0, kblack),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          NormalText("Oran", kgreyDark, 12.0),
-                          Icon(
-                            Icons.location_on,
-                            color: kgreyDark,
-                            size: 16.0,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  BoldText("Past order", 20.0, kblack),
-                  BoldText("More", 16, kdarkBlue),
-                ],
-              ),
-              SizedBox(
-                height: 10.0,
-              ),
-              Container(
-                width: 400,
-                height: 200,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    RecommendationImage(
-                        "assets/images/sheraton.jpg", "Sheraton", "Oran"),
-                    RecommendationImage(
-                        "assets/images/Meridien.jpg", "Meridien", "Oran"),
-                    RecommendationImage(
-                        "assets/images/ibis.jpg", "Ibis", "Oran"),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    WideButton(
+                      'Искать',
+                      () {
+                        String depDateAsString =
+                            selectedDepDate.toString().substring(0, 10);
+                        String arrDateAsString =
+                            selectedArrDate.toString().substring(0, 10);
+                        // var hotelDataDecoded = await getHotelInfo(
+                        //, depDateAsString, arrDateAsString);
+                        //var picList = await getHotelPics(hotelDataDecoded);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HotelCards(country,
+                                    depDateAsString, arrDateAsString)));
+                      },
+                      kPinBlue,
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        BoldText("current deals".tr(), 20.0, kblack),
+                        BoldText("more".tr(), 16, kdarkBlue),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Container(
+                      //width: 400,
+                      height: 200,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: currentDeals.length,
+                        itemBuilder: (context, index) {
+                          return currentDeals[index];
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            currentDeals.isEmpty
+                ? Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(),
+                  )
+                : Container()
+          ],
         ),
       ),
     );

@@ -9,6 +9,8 @@ import 'package:travelman/pages/hotel.dart';
 import 'package:travelman/pages/restaurant.dart';
 import 'package:travelman/utils/next_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class TodoWidget extends StatelessWidget {
   final Place placeData;
@@ -283,7 +285,9 @@ class TodoWidget extends StatelessWidget {
                                 fontSize: 15),
                           ).tr(),
                         ])),
-                onTap: () => nextScreen(context, BookingMain()),
+                onTap: () async {
+                  nextScreen(context, BookingMain());
+                },
               ),
             ],
           ),

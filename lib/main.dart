@@ -24,6 +24,7 @@ import 'package:travelman/blocs/state_bloc.dart';
 import 'package:travelman/pages/chat/app/module.dart';
 import 'package:travelman/pages/splash.dart';
 import 'blocs/sp_state_two.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -93,6 +94,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<AdsBloc>(create: (context) => AdsBloc()),
       ],
       child: MaterialApp(
+          builder: BotToastInit(),
+          navigatorObservers: [BotToastNavigatorObserver()],
           supportedLocales: context.supportedLocales,
           localizationsDelegates: context.localizationDelegates,
           locale: context.locale,

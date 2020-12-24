@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -24,7 +25,7 @@ import 'package:travelman/widgets/popular_places.dart';
 import 'package:travelman/widgets/recent_places.dart';
 import 'package:travelman/widgets/recommended_places.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:http/http.dart' as http;
 import 'booking_page/flights_widget.dart';
 import 'chat/app/module.dart';
 
@@ -35,6 +36,7 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
+
   @override
   void initState() {
     super.initState();
@@ -133,6 +135,9 @@ class Header extends StatelessWidget {
                   )),
               InkWell(
                   onTap: () {
+                    //var bookingPageInfoDecoded
+                    //= await getBookingMainInfo('53.408777', '-2.981006');
+                    //var picList = await getCurrentDealsPicsUrls(bookingPageInfoDecoded);
                     nextScreen(context, BookingMain());
                   },
                   child: Container(

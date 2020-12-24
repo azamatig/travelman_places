@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:travelman/pages/booking_page/booking_info.dart';
 import 'package:travelman/utils/colors.dart';
@@ -27,7 +28,7 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
   getFlightData(String origin, String destination, String depDate,
       String retDate) async {
     var flightData = await http.get(
-        'https://api.travelpayouts.com/v1/prices/cheap?origin=$origin&destination=$destination&depart_date=$depDate&return_date=$retDate&token=$kToken&currency=KZT');
+        'https://api.travelpayouts.com/v1/prices/cheap?origin=$origin&destination=$destination&depart_date=$depDate&return_date=$retDate&token=$kToken&currency=USD');
     var flightDataDecoded = jsonDecode(flightData.body);
     return flightDataDecoded;
   }

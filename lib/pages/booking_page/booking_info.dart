@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/wide_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 // ignore: must_be_immutable
 class TicketInfoScreen extends StatelessWidget {
@@ -13,12 +15,14 @@ class TicketInfoScreen extends StatelessWidget {
   final String depDate;
   final String retDate;
 
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
   TicketInfoScreen(this.flightDataDecoded, this.origin, this.destination,
       this.depDate, this.retDate);
 
   List<Widget> airfares = [];
 
-  void createAirfares() {
+  void createAirfares(var context) {
     for (var v in flightDataDecoded["data"][destination]?.values) {
       String airline = '${v['airline']}';
       Widget airfare = Container(
@@ -101,7 +105,23 @@ class TicketInfoScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 25),
-            WideButton('book now'.tr(), () {}, kPinBlue),
+            WideButton('book now'.tr(),
+                    () {
+                      String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+                      firestore.collection('tickets').doc(timestamp).set({
+                        'origin': origin,
+                        'destination': destination,
+                        'price': '${v["price"].toString()}' + '  ' + 'currency'.tr(),
+                        'depDate': v["departure_at"],
+                        'arrDate': v["return_at"],
+                        'airline' : airline,
+                        'timestamp': timestamp,
+                      });
+                      //implement toast here
+                      BotToast.showText(text:"booked!");  //popup a text toast;
+                      //Navigator.pop(context);
+                    },
+                kPinBlue),
           ],
         ),
       );
@@ -111,7 +131,7 @@ class TicketInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    createAirfares();
+    createAirfares(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('best deals'.tr()),

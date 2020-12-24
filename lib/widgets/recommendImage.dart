@@ -15,7 +15,7 @@ class RecommendationImage extends StatelessWidget {
       width: 150,
       height: 200,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             width: 120.0,
@@ -24,10 +24,8 @@ class RecommendationImage extends StatelessWidget {
                 borderRadius: new BorderRadius.all(
                   Radius.circular(15),
                 ),
-                child: Image.asset(
-                  imageUrl,
-                  fit: BoxFit.fitHeight,
-                )),
+                child: Image.network(imageUrl, fit: BoxFit.fitHeight,),
+            ),
           ),
           BoldText(name, 16.0, kblack),
           Row(
