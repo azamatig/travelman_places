@@ -82,7 +82,7 @@ class User extends _User with _$User {
   }) {
     return User(
       id: uid,
-      name: name ?? 'Otaku-${Random().nextInt(10000)}',
+      name: name ?? 'Traveler-${Random().nextInt(10000)}',
       email: email ?? '',
       photoUrl: photoUrl ?? '',
       status: status ?? '',
