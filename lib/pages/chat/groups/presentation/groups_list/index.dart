@@ -47,7 +47,7 @@ class _GroupsWidgetState extends State<GroupsWidget> with RouteAware {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  'Groups',
+                  'Группы',
                   style:
                       GoogleFonts.basic(textStyle: theme.textTheme.headline5),
                 ).padding(top: 4, bottom: 8, left: 20),

@@ -27,6 +27,7 @@ class AppModule extends m.MainModule {
   final wallpaperModule = WallpaperModule();
   final analytics = FirebaseAnalytics();
   final adminModule = AdminModule();
+
   @override
   List<m.Bind> get binds => [
         m.Bind((_) => appStore),
