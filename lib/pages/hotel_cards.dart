@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:travelman/utils/wide_button.dart';
 
 class HotelCards extends StatefulWidget {
   final String country;
@@ -143,6 +144,51 @@ class HotelCardWidget extends StatelessWidget {
   HotelCardWidget(this.imageUrl, this.country, this.price, this.hotelName,
       this.depDate, this.arrDate);
 
+  Widget builderBottomSheet(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: kwhite,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+          bottomLeft: Radius.circular(0),
+          bottomRight: Radius.circular(0),
+        ),
+      ),
+      child: Column(
+        children: [
+          BottomSheetTextField((newVal) {
+            //origin = newVal;
+          }, 'First Name',),
+          SizedBox(height: 16),
+          BottomSheetTextField(
+                (newVal) {
+              //destination = newVal;
+            },
+              'Second Name',
+          ),
+          SizedBox(height: 16),
+          BottomSheetTextField((newVal) {
+            //origin = newVal;
+          }, 'phone number',),
+          SizedBox(height: 16),
+          BottomSheetTextField((newVal) {
+            //origin = newVal;
+          }, 'email address',),
+          SizedBox(height: 16),
+          WideButton('book now'.tr(),
+                  () {
+                //implement toast here
+                //BotToast.showText(text:"booked!");  //popup a text toast;
+                //Navigator.pop(context);
+              },
+              kPinBlue),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -172,6 +218,16 @@ class HotelCardWidget extends StatelessWidget {
                 ),
               ),
               Container(
+                decoration: BoxDecoration(
+                  color: kwhite,
+                  border: Border.all(color: Colors.black12),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(0),
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
+                ),
                 padding: EdgeInsets.fromLTRB(15, 20, 5, 5),
                 //EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 child: Column(
@@ -202,6 +258,7 @@ class HotelCardWidget extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward),
                               color: Colors.black,
                               onPressed: () {
+                                /*
                                 String timestamp = DateTime.now()
                                     .millisecondsSinceEpoch
                                     .toString();
@@ -216,8 +273,14 @@ class HotelCardWidget extends StatelessWidget {
                                   'imageUrl': imageUrl,
                                   'timestamp': timestamp,
                                 });
-                                BotToast.showText(text: "booked!");
-                                Navigator.pop(context);
+                                //BotToast.showText(text: "booked!");
+                                */
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: builderBottomSheet,
+                                  backgroundColor: Colors.transparent,
+                                );
+                                //Navigator.pop(context);
                               },
                             ),
                           ],
@@ -234,6 +297,48 @@ class HotelCardWidget extends StatelessWidget {
           height: 25,
         ),
       ],
+    );
+  }
+}
+
+class BottomSheetTextField extends StatelessWidget {
+  final updateString;
+  final hintText;
+
+  BottomSheetTextField(this.updateString, this.hintText);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      textAlign: TextAlign.start,
+      onChanged: updateString,
+      decoration: InputDecoration(
+        hintText: hintText,
+        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.grey,
+            width: 1.0,
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kPinBlue,
+            width: 2.0,
+          ),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+      ),
     );
   }
 }

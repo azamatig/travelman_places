@@ -13,6 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:travelman/pages/hotel_cards.dart';
 import 'flights_widget.dart';
+import 'package:travelman/utils/loading_cards.dart';
 
 class BookingMain extends StatefulWidget {
   @override
@@ -26,6 +27,14 @@ class _BookingMainState extends State<BookingMain>
   String country;
   var picList;
   var currentDealsJson;
+  List<Widget> loadingDeals = [
+    LoadingPopularPlacesCard(),
+    LoadingPopularPlacesCard(),
+    LoadingPopularPlacesCard(),
+    LoadingPopularPlacesCard(),
+    LoadingPopularPlacesCard()
+  ];
+
   List<Widget> currentDeals = [];
   List<String> currentDealsPicsUrls = [];
 
@@ -46,7 +55,7 @@ class _BookingMainState extends State<BookingMain>
           .get('https://yasen.hotellook.com/photos/hotel_photos?id=$hotelId');
       var picIdsDecoded = jsonDecode(picIds.body);
       var picUrl =
-          'https://photo.hotellook.com/image_v2/limit/${picIdsDecoded[hotelId][0]}/800/520.auto';
+          'https://photo.hotellook.com/image_v2/limit/${picIdsDecoded[hotelId][0]}/400/250.auto';
       picUrls.add(picUrl);
     }
     // setState(() {
@@ -121,165 +130,162 @@ class _BookingMainState extends State<BookingMain>
       appBar: AppBar(
         backgroundColor: kwhite,
         title:
-            Text("booking", style: TextStyle(fontSize: 25, color: kblack)).tr(),
+        Text("booking", style: TextStyle(fontSize: 25, color: kblack)).tr(),
         centerTitle: true,
         elevation: 0.0,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: Stack(
-          children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Column(
-                  children: [
-                    InfoTextField('search for places'.tr(), (newVal) {
-                      country = newVal;
-                    }, 'Name of the city'.tr()),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            height: 45,
-                            width: 185,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border:
-                                    Border.all(width: 1, color: Colors.grey)),
-                            child: GestureDetector(
-                              onTap: () => _selectDepDate(context),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.calendarAlt,
-                                      color: Colors.black45,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "Въезд " +
-                                          "${selectedDepDate.toLocal()}"
-                                              .split(' ')[0],
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          color: Colors.grey[500]),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 21,
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Container(
-                            height: 45,
-                            width: 185,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border:
-                                    Border.all(width: 1, color: Colors.grey)),
-                            child: GestureDetector(
-                              onTap: () => _selectArrDate(context),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      FontAwesomeIcons.calendarAlt,
-                                      color: Colors.black45,
-                                      size: 20,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      "Выезд " +
-                                          "${selectedArrDate.toLocal()}"
-                                              .split(' ')[0],
-                                      style: GoogleFonts.poppins(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 14,
-                                          color: Colors.grey[500]),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    WideButton(
-                      'Искать',
-                      () {
-                        String depDateAsString =
-                            selectedDepDate.toString().substring(0, 10);
-                        String arrDateAsString =
-                            selectedArrDate.toString().substring(0, 10);
-                        // var hotelDataDecoded = await getHotelInfo(
-                        //, depDateAsString, arrDateAsString);
-                        //var picList = await getHotelPics(hotelDataDecoded);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => HotelCards(country,
-                                    depDateAsString, arrDateAsString)));
-                      },
-                      kPinBlue,
-                    ),
-                  ],
+              children: [
+                InfoTextField('search for places'.tr(), (newVal) {
+                  country = newVal;
+                }, 'Name of the city'.tr()),
+                SizedBox(
+                  height: 15,
                 ),
-                Column(
+                Row(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        BoldText("current deals".tr(), 20.0, kblack),
-                        BoldText("more".tr(), 16, kdarkBlue),
-                      ],
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: 45,
+                        width: 185,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border:
+                            Border.all(width: 1, color: Colors.grey)),
+                        child: GestureDetector(
+                          onTap: () => _selectDepDate(context),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  FontAwesomeIcons.calendarAlt,
+                                  color: Colors.black45,
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Въезд " +
+                                      "${selectedDepDate.toLocal()}"
+                                          .split(' ')[0],
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: Colors.grey[500]),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                     SizedBox(
-                      height: 16,
+                      width: 21,
                     ),
-                    Container(
-                      //width: 400,
-                      height: 200,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: currentDeals.length,
-                        itemBuilder: (context, index) {
-                          return currentDeals[index];
-                        },
+                    Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: 45,
+                        width: 185,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border:
+                            Border.all(width: 1, color: Colors.grey)),
+                        child: GestureDetector(
+                          onTap: () => _selectArrDate(context),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  FontAwesomeIcons.calendarAlt,
+                                  color: Colors.black45,
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  "Выезд " +
+                                      "${selectedArrDate.toLocal()}"
+                                          .split(' ')[0],
+                                  style: GoogleFonts.poppins(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: Colors.grey[500]),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 16,
+                ),
+                WideButton(
+                  'Искать',
+                      () {
+                    String depDateAsString =
+                    selectedDepDate.toString().substring(0, 10);
+                    String arrDateAsString =
+                    selectedArrDate.toString().substring(0, 10);
+                    // var hotelDataDecoded = await getHotelInfo(
+                    //, depDateAsString, arrDateAsString);
+                    //var picList = await getHotelPics(hotelDataDecoded);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HotelCards(country,
+                                depDateAsString, arrDateAsString)));
+                  },
+                  kPinBlue,
+                ),
               ],
             ),
-            currentDeals.isEmpty
-                ? Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator(),
-                  )
-                : Container()
+            SizedBox(
+              height: 25,
+            ),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    BoldText("current deals".tr(), 20.0, kblack),
+                    BoldText("more".tr(), 16, kdarkBlue),
+                  ],
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  //width: 400,
+                  height: 200,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: loadingDeals.length, //currentDeals.length,
+                    itemBuilder: (context, index) {
+                      if (currentDeals.length < 5)
+                        return loadingDeals[index];
+                      else
+                        return currentDeals[index];
+                    },
+                  ),
+                ),
+              ],
+            ),
+            Expanded(child: Container(),),
           ],
         ),
       ),
