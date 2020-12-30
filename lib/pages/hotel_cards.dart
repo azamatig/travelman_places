@@ -140,6 +140,10 @@ class HotelCardWidget extends StatelessWidget {
   final String hotelName;
   final String depDate;
   final String arrDate;
+  String clientFirstName = " ";
+  String clientSecondName = " ";
+  String clientPhone = " ";
+  String clientEmail = " ";
 
   HotelCardWidget(this.imageUrl, this.country, this.price, this.hotelName,
       this.depDate, this.arrDate);
@@ -156,32 +160,49 @@ class HotelCardWidget extends StatelessWidget {
           bottomRight: Radius.circular(0),
         ),
       ),
-      child: Column(
+      child: ListView(
         children: [
           BottomSheetTextField((newVal) {
-            //origin = newVal;
+              clientFirstName = newVal;
           }, 'First Name',),
           SizedBox(height: 16),
           BottomSheetTextField(
                 (newVal) {
-              //destination = newVal;
+              clientSecondName = newVal;
             },
               'Second Name',
           ),
           SizedBox(height: 16),
           BottomSheetTextField((newVal) {
-            //origin = newVal;
+              clientPhone = newVal;
           }, 'phone number',),
           SizedBox(height: 16),
           BottomSheetTextField((newVal) {
-            //origin = newVal;
+              clientEmail = newVal;
           }, 'email address',),
           SizedBox(height: 16),
           WideButton('book now'.tr(),
                   () {
-                //implement toast here
-                //BotToast.showText(text:"booked!");  //popup a text toast;
-                //Navigator.pop(context);
+                    String timestamp = DateTime.now()
+                        .millisecondsSinceEpoch
+                        .toString();
+                    firestore
+                        .collection('Booking')
+                        .doc(timestamp)
+                        .set({
+                      'hotelName': hotelName,
+                      'price': price,
+                      'depDate': depDate,
+                      'arrDate': arrDate,
+                      'imageUrl': imageUrl,
+                      'clientName': '$clientFirstName $clientSecondName',
+                      'clientPhone': clientPhone,
+                      'clientEmail': clientEmail,
+                      'clientAvatar': "https://www.doctorlasercursos.com.br/uploads/avatars/2016/06/empty-avatar.jpg",
+                      'timestamp': timestamp,
+                    });
+                    Navigator.pop(context);
+                    //BotToast.showText(text: "booked!");
               },
               kPinBlue),
         ],
@@ -258,6 +279,11 @@ class HotelCardWidget extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward),
                               color: Colors.black,
                               onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: builderBottomSheet,
+                                  backgroundColor: Colors.transparent,
+                                );
                                 /*
                                 String timestamp = DateTime.now()
                                     .millisecondsSinceEpoch
@@ -275,11 +301,7 @@ class HotelCardWidget extends StatelessWidget {
                                 });
                                 //BotToast.showText(text: "booked!");
                                 */
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: builderBottomSheet,
-                                  backgroundColor: Colors.transparent,
-                                );
+
                                 //Navigator.pop(context);
                               },
                             ),
