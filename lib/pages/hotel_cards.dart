@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:travelman/utils/wide_button.dart';
@@ -30,7 +31,6 @@ class _HotelCardsState extends State<HotelCards> {
     hotelsInfo = hotelDataDecoded;
   }
 
-  // ignore: missing_return
   Future<List<String>> getHotelPics(var hotelsInfo) async {
     List<String> picUrls = [];
     for (var v in hotelsInfo) {
@@ -140,6 +140,10 @@ class HotelCardWidget extends StatelessWidget {
   final String hotelName;
   final String depDate;
   final String arrDate;
+  String clientFirstName = " ";
+  String clientSecondName = " ";
+  String clientPhone = " ";
+  String clientEmail = " ";
 
   HotelCardWidget(this.imageUrl, this.country, this.price, this.hotelName,
       this.depDate, this.arrDate);
@@ -156,41 +160,51 @@ class HotelCardWidget extends StatelessWidget {
           bottomRight: Radius.circular(0),
         ),
       ),
-      child: Column(
+      child: ListView(
         children: [
-          BottomSheetTextField(
-            (newVal) {
-              //origin = newVal;
-            },
-            'First Name',
-          ),
+          BottomSheetTextField((newVal) {
+              clientFirstName = newVal;
+          }, 'First Name',),
           SizedBox(height: 16),
           BottomSheetTextField(
-            (newVal) {
-              //destination = newVal;
+                (newVal) {
+              clientSecondName = newVal;
             },
-            'Second Name',
+              'Second Name',
           ),
           SizedBox(height: 16),
-          BottomSheetTextField(
-            (newVal) {
-              //origin = newVal;
-            },
-            'phone number',
-          ),
+          BottomSheetTextField((newVal) {
+              clientPhone = newVal;
+          }, 'phone number',),
           SizedBox(height: 16),
-          BottomSheetTextField(
-            (newVal) {
-              //origin = newVal;
-            },
-            'email address',
-          ),
+          BottomSheetTextField((newVal) {
+              clientEmail = newVal;
+          }, 'email address',),
           SizedBox(height: 16),
-          WideButton('book now'.tr(), () {
-            //implement toast here
-            //BotToast.showText(text:"booked!");  //popup a text toast;
-            //Navigator.pop(context);
-          }, kPinBlue),
+          WideButton('book now'.tr(),
+                  () {
+                    String timestamp = DateTime.now()
+                        .millisecondsSinceEpoch
+                        .toString();
+                    firestore
+                        .collection('Booking')
+                        .doc(timestamp)
+                        .set({
+                      'hotelName': hotelName,
+                      'price': price,
+                      'depDate': depDate,
+                      'arrDate': arrDate,
+                      'imageUrl': imageUrl,
+                      'clientName': '$clientFirstName $clientSecondName',
+                      'clientPhone': clientPhone,
+                      'clientEmail': clientEmail,
+                      'clientAvatar': "https://www.doctorlasercursos.com.br/uploads/avatars/2016/06/empty-avatar.jpg",
+                      'timestamp': timestamp,
+                    });
+                    Navigator.pop(context);
+                    //BotToast.showText(text: "booked!");
+              },
+              kPinBlue),
         ],
       ),
     );
@@ -265,6 +279,11 @@ class HotelCardWidget extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward),
                               color: Colors.black,
                               onPressed: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  builder: builderBottomSheet,
+                                  backgroundColor: Colors.transparent,
+                                );
                                 /*
                                 String timestamp = DateTime.now()
                                     .millisecondsSinceEpoch
@@ -282,11 +301,7 @@ class HotelCardWidget extends StatelessWidget {
                                 });
                                 //BotToast.showText(text: "booked!");
                                 */
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: builderBottomSheet,
-                                  backgroundColor: Colors.transparent,
-                                );
+
                                 //Navigator.pop(context);
                               },
                             ),
