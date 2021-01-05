@@ -6,6 +6,8 @@ import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/wide_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:provider/provider.dart';
+import 'package:travelman/blocs/sign_in_bloc.dart';
 
 // ignore: must_be_immutable
 class TicketInfoScreen extends StatelessWidget {
@@ -181,7 +183,7 @@ class Ticket extends StatelessWidget {
                   'clientName': '$clientFirstName $clientSecondName',
                   'clientPhone': clientPhone,
                   'clientEmail': clientEmail,
-                  'clientAvatar': "https://www.doctorlasercursos.com.br/uploads/avatars/2016/06/empty-avatar.jpg",
+                  'clientAvatar': "https://3znvnpy5ek52a26m01me9p1t-wpengine.netdna-ssl.com/wp-content/uploads/2017/07/noimage_person.png",
                   'timestamp': timestamp,
                 });
                 Navigator.pop(context);
@@ -196,6 +198,7 @@ class Ticket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String airline = '${v['airline']}';
+    final sb = context.watch<SignInBloc>();
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -278,26 +281,35 @@ class Ticket extends StatelessWidget {
           SizedBox(height: 25),
           WideButton('book now'.tr(),
                   () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => builderBottomSheet(context, v),
-                  backgroundColor: Colors.transparent,
-                );
-                //String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
-                /*
-                      firestore.collection('tickets').doc(timestamp).set({
-                        'origin': origin,
-                        'destination': destination,
-                        'price': '${v["price"].toString()}' + '  ' + 'currency'.tr(),
-                        'depDate': v["departure_at"],
-                        'arrDate': v["return_at"],
-                        'airline' : airline,
-                        'timestamp': timestamp,
-                      });
-                      */
-                //implement toast here
-                //BotToast.showText(text:"booked!");  //popup a text toast;
-                //Navigator.pop(context);
+                if(sb.isSignedIn == false) {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) => builderBottomSheet(context, v),
+                    backgroundColor: Colors.transparent,
+                  );
+                }
+                else{
+                  String timestamp = DateTime.now()
+                      .millisecondsSinceEpoch
+                      .toString();
+                  firestore
+                      .collection('tickets')
+                      .doc(timestamp)
+                      .set({
+                    'origin': origin,
+                    'destination': destination,
+                    'price': '${v["price"].toString()}' + '  ' + 'currency'.tr(),
+                    'depDate': v["departure_at"],
+                    'arrDate': v["return_at"],
+                    'airline' : '${v['airline']}',
+                    'clientName': sb.name,
+                    'clientPhone': '',
+                    'clientEmail': sb.email,
+                    'clientAvatar': sb.imageUrl,
+                    'timestamp': timestamp,
+                  });
+                  Navigator.pop(context);
+                }
               },
               kPinBlue),
         ],

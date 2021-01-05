@@ -3,6 +3,8 @@ import 'package:travelman/utils/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:provider/provider.dart';
+import 'package:travelman/blocs/sign_in_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:travelman/utils/wide_button.dart';
@@ -212,6 +214,7 @@ class HotelCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final sb = context.watch<SignInBloc>();
     return Column(
       children: [
         Container(
@@ -279,29 +282,34 @@ class HotelCardWidget extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward),
                               color: Colors.black,
                               onPressed: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: builderBottomSheet,
-                                  backgroundColor: Colors.transparent,
-                                );
-                                /*
-                                String timestamp = DateTime.now()
-                                    .millisecondsSinceEpoch
-                                    .toString();
-                                firestore
-                                    .collection('Booking')
-                                    .doc(timestamp)
-                                    .set({
-                                  'hotelName': hotelName,
-                                  'price': price,
-                                  'depDate': depDate,
-                                  'arrDate': arrDate,
-                                  'imageUrl': imageUrl,
-                                  'timestamp': timestamp,
-                                });
-                                //BotToast.showText(text: "booked!");
-                                */
-
+                                if(sb.isSignedIn == false) {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: builderBottomSheet,
+                                    backgroundColor: Colors.transparent,
+                                  );
+                                }
+                                else{
+                                  String timestamp = DateTime.now()
+                                      .millisecondsSinceEpoch
+                                      .toString();
+                                  firestore
+                                      .collection('Booking')
+                                      .doc(timestamp)
+                                      .set({
+                                    'hotelName': hotelName,
+                                    'price': price,
+                                    'depDate': depDate,
+                                    'arrDate': arrDate,
+                                    'imageUrl': imageUrl,
+                                    'clientName': sb.name,
+                                    'clientPhone': '',
+                                    'clientEmail': sb.email,
+                                    'clientAvatar': sb.imageUrl,
+                                    'timestamp': timestamp,
+                                  });
+                                  Navigator.pop(context);
+                                }
                                 //Navigator.pop(context);
                               },
                             ),
