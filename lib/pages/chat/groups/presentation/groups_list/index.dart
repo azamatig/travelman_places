@@ -48,11 +48,12 @@ class _GroupsWidgetState extends State<GroupsWidget> with RouteAware {
               children: <Widget>[
                 Text(
                   'Группы',
-                  style:
-                      GoogleFonts.basic(textStyle: theme.textTheme.headline5),
+                  style: GoogleFonts.basic(
+                      textStyle: theme.textTheme.headline5,
+                      color: Colors.white),
                 ).padding(top: 4, bottom: 8, left: 20),
                 IconButton(
-                  icon: Icon(Icons.search),
+                  icon: Icon(Icons.search, color: Colors.white),
                   onPressed: GroupsModule.toSearch,
                 ),
               ],
@@ -68,7 +69,10 @@ class _GroupsWidgetState extends State<GroupsWidget> with RouteAware {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Icon(Icons.search),
+                        Icon(
+                          Icons.search,
+                          color: Colors.white,
+                        ),
                         SizedBox(width: 22),
                         Text(t.Groups.join)
                       ],
@@ -79,8 +83,14 @@ class _GroupsWidgetState extends State<GroupsWidget> with RouteAware {
             ),
             FlatButton.icon(
               onPressed: GroupsModule.toCreateGroup,
-              label: Text(t.Groups.create_group),
-              icon: Icon(Icons.add_circle_outline),
+              label: Text(
+                t.Groups.create_group,
+                style: TextStyle(color: Colors.white),
+              ),
+              icon: Icon(
+                Icons.add_circle_outline,
+                color: Colors.yellowAccent,
+              ),
             )
           ],
         ),

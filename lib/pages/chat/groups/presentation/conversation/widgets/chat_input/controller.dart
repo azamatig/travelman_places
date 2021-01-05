@@ -30,7 +30,7 @@ abstract class _ChatInputController with Store {
     // type: 0 = text, 1 = img
     final msgContent = message ?? controller.text.trim();
     if (msgContent.isEmpty) return;
-    if (ProfanityFilter().checkStringForProfanity(msgContent)) {
+    if (ProfanityFilter().hasProfanity(msgContent)) {
       BotToast.showText(
         text: 'Bad words detected, your account may get suspended!',
         duration: Duration(seconds: 5),
@@ -60,7 +60,9 @@ abstract class _ChatInputController with Store {
           content: controller.text,
         );
       }
-    } catch (e, s) {}
+    } catch (e, s) {
+      print(s);
+    }
   }
 
   @action
@@ -88,7 +90,9 @@ abstract class _ChatInputController with Store {
         );
         isImageUploading = false;
         await repo.sendMessage(msg);
-      } catch (e, s) {}
+      } catch (e, s) {
+        print(s);
+      }
     }
   }
 

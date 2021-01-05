@@ -21,8 +21,9 @@ class GroupItem extends StatelessWidget {
       leading: GroupAvatar(photoUrl: group.photoUrl, radius: 40),
       title: Text(
         group.name,
-        style:
-            GoogleFonts.basic(textStyle: Theme.of(context).textTheme.subtitle1),
+        style: GoogleFonts.basic(
+            textStyle: Theme.of(context).textTheme.subtitle1,
+            color: Colors.white),
       ),
       trailing: StreamBuilder<List<Message>>(
         stream: controller.repo.msgsStream(group.id, 10),

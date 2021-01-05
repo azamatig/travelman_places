@@ -32,18 +32,11 @@ class ImportPhotoBottomSheet extends StatelessWidget {
               },
               items: [
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.photo_album),
-                    title: Text(
-                      'Gallery',
-                      style: theme.textTheme.headline6,
-                    )),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.camera_alt),
-                  title: Text(
-                    'Camera',
-                    style: theme.textTheme.headline6,
-                  ),
+                  icon: Icon(Icons.photo_album),
+                  label: 'Gallery',
                 ),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.camera_alt), label: 'Camera'),
               ],
             ),
           ),

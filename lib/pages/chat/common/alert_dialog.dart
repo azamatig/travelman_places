@@ -5,7 +5,7 @@ Future<void> showDeleteAlertDialog(
     BuildContext context, VoidCallback onDelete) async {
   await showDialog(
     context: context,
-    child: AlertDialog(
+    builder: (context) => AlertDialog(
       title: Text('Вы уверены что хотите удалить?'),
       actions: <Widget>[
         RaisedButton(

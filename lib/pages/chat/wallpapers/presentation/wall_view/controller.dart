@@ -60,6 +60,7 @@ abstract class _WallpaperPageController with Store {
       await repo.wallpaperDownloaded(currentUser.id, currentWallpaper);
     } catch (e, s) {
       print(e);
+      print(s);
     }
   }
 

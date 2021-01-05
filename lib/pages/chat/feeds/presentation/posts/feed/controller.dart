@@ -61,6 +61,7 @@ abstract class _FeedControllerBase with Store {
       }
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -70,6 +71,7 @@ abstract class _FeedControllerBase with Store {
       await repo.reportPost(post, currentUser.id);
     } catch (e, s) {
       Logger().e('Error reporting post', e);
+      print(s);
     }
   }
 

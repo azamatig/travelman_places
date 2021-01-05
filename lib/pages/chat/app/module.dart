@@ -1,6 +1,4 @@
-import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -62,13 +60,13 @@ class AppModule extends m.MainModule {
           initialRoute: '/',
           onGenerateRoute: m.Modular.generateRoute,
           navigatorKey: m.Modular.navigatorKey,
-          builder: BotToastInit(),
-          navigatorObservers: [
-            BotToastNavigatorObserver(),
-            FirebaseAnalyticsObserver(analytics: analytics),
-            appStore.routeObserver,
-          ],
-          themeMode: appStore.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          // builder: BotToastInit(),
+          //    navigatorObservers: [
+          //    BotToastNavigatorObserver(),
+          //  FirebaseAnalyticsObserver(analytics: analytics),
+          // appStore.routeObserver,
+          // ],
+          themeMode: appStore.isDarkMode ? ThemeMode.light : ThemeMode.dark,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           localizationsDelegates: [

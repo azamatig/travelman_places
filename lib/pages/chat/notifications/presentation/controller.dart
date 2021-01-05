@@ -43,6 +43,7 @@ abstract class _NotificationController with Store {
         });
       } catch (e, s) {
         Logger().e(e);
+        print(s);
       }
     }
 
@@ -80,6 +81,7 @@ abstract class _NotificationController with Store {
           );
         } catch (e, s) {
           Logger().e(e);
+          print(s);
         }
       },
       orElse: () => null,

@@ -43,6 +43,7 @@ abstract class _ReplyControllerBase with Store {
       await _notStore.commentReplyNotification(comment);
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -52,6 +53,7 @@ abstract class _ReplyControllerBase with Store {
       await repo.removeCommentReply(parentId, reply);
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 

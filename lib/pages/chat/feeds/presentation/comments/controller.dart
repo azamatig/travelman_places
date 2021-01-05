@@ -46,7 +46,7 @@ abstract class _CommentsController with Store {
 
   @action
   Future<void> addComment(String content) async {
-    if (ProfanityFilter().checkStringForProfanity(content)) {
+    if (ProfanityFilter().hasProfanity(content)) {
       BotToast.showText(
         text: 'Bad words detected, your account may get suspended!',
         duration: Duration(seconds: 5),
@@ -66,12 +66,13 @@ abstract class _CommentsController with Store {
       await _notStore.postCommentNotification(postAuthor, postId);
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
   @action
   Future<void> editComment(Comment comment) async {
-    if (ProfanityFilter().checkStringForProfanity(comment.content)) {
+    if (ProfanityFilter().hasProfanity(comment.content)) {
       BotToast.showText(
         text: 'Bad words detected, your account may get suspended!',
         duration: Duration(seconds: 5),
@@ -82,6 +83,7 @@ abstract class _CommentsController with Store {
       await repo.updateComment(comment);
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -93,6 +95,7 @@ abstract class _CommentsController with Store {
       await repo.removeComment(postId, commentId);
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -108,7 +111,9 @@ abstract class _CommentsController with Store {
         await repo.addCommentReaction(comment, currentUser.id);
         await _notStore.commentReactionNotification(comment);
       }
-    } catch (e, s) {}
+    } catch (e, s) {
+      print(s);
+    }
   }
 
   void dispose() {

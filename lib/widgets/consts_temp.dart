@@ -1,5 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:travelman/utils/colors.dart';
+
+final _firestore = FirebaseFirestore.instance;
+final String collectionDbName = 'instagram_stories_db';
+final storiesRef = _firestore.collection(collectionDbName);
 
 const kToken = 'f41230bc222d3528d8909d1def2913d3';
 const kInputDecoration = InputDecoration(

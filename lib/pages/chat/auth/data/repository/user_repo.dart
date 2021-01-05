@@ -32,7 +32,7 @@ class UserRepoImp implements UserRepository {
     String country;
     try {
       country = Modular.get<AppStore>().pref.getString('Country');
-      country ??= await CountryPickerUtils.getCountryByIsoCode(
+      country ??= CountryPickerUtils.getCountryByIsoCode(
               await FlutterSimCountryCode.simCountryCode)
           .name;
     } catch (e) {

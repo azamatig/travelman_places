@@ -64,6 +64,9 @@ dependencies:
   flutter_local_notifications: ^1.4.4+2
   uuid: ^2.0.4
   dotted_line: ^2.0.2
+  flutter_instagram_stories: ^0.1.5+5
+  esys_flutter_share: ^1.0.2
+  flutter_video_compress: ^0.3.7+8
 
   #mobx related stuff
   flutter_modular: ^2.0.1

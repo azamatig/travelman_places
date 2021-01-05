@@ -75,7 +75,7 @@ class _PostWidgetState extends State<PostWidget> {
           ),
           if (widget.post.hasImage)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
+              padding: const EdgeInsets.symmetric(horizontal: 4),
               child: GestureDetector(
                 child: CachedNetworkImage(
                         imageUrl: widget.post.imgUrl,

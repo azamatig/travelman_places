@@ -45,6 +45,7 @@ Future<void> showDownloadProgressBar(String imgUrl, {String fileName}) async {
   } catch (e, s) {
     print(e);
     BotToast.showText(text: 'Oops! Failed To Download');
+    print(s);
   }
   BotToast.closeAllLoading();
   await progressStream.close();

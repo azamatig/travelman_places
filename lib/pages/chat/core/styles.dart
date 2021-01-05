@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 mixin AppTheme {
   //MAIN COLORS
-  static const primaryGreenColor = Color(0xff1ab39e);
+  static const primaryGreenColor = Color(0xff2196f3);
   static const primaryDarkColor = Color(0xff013245);
   static const yellowColor = Color(0xffffe102);
   static const blueColor = Color(0xff00ebff);

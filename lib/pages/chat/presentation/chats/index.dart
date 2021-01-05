@@ -44,7 +44,8 @@ class _ChatScreenState extends State<ChatScreen> with RouteAware {
         title: Text(
           t.Chat.title,
           style: GoogleFonts.abrilFatface(
-              textStyle: theme.textTheme.headline6.copyWith(fontSize: 24)),
+              textStyle: theme.textTheme.headline6
+                  .copyWith(fontSize: 24, color: Colors.white)),
         ),
       ),
       body: SafeArea(

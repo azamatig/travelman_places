@@ -34,8 +34,9 @@ class NotificationItem extends StatelessWidget {
                 Flexible(
                   child: Text(
                     notification?.content() ?? '',
-                    style:
-                        GoogleFonts.basic(textStyle: theme.textTheme.subtitle1),
+                    style: GoogleFonts.basic(
+                        textStyle: theme.textTheme.subtitle1,
+                        color: Colors.white),
                   ),
                 ),
               ],
@@ -49,9 +50,15 @@ class NotificationItem extends StatelessWidget {
   Widget get icon {
     switch (notification.runtimeType) {
       case FollowNotification:
-        return Icon(FontAwesomeIcons.userPlus);
+        return Icon(
+          FontAwesomeIcons.userPlus,
+          color: Colors.white,
+        );
       case PostReactionNotification:
-        return Icon(Icons.favorite);
+        return Icon(
+          Icons.favorite,
+          color: Colors.deepOrange,
+        );
       case PostCommentNotification:
         return Icon(FontAwesomeIcons.comment);
       default:
