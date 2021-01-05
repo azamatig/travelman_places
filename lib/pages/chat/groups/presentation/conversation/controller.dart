@@ -69,6 +69,7 @@ abstract class _ConversationCon with Store {
       );
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -86,6 +87,7 @@ abstract class _ConversationCon with Store {
       );
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 

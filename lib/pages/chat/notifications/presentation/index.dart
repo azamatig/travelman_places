@@ -23,9 +23,13 @@ class _NotificationScreenState
         ListTile(
           title: Text(
             t.Notifications.title,
-            style: GoogleFonts.basic(textStyle: theme.textTheme.headline5),
+            style: GoogleFonts.basic(
+                textStyle: theme.textTheme.headline6, color: Colors.white),
           ),
-          trailing: Icon(Icons.notifications),
+          trailing: Icon(
+            Icons.notifications,
+            color: Colors.white,
+          ),
         ),
         Expanded(
           child: StreamBuilder<List<OtakuNotification>>(

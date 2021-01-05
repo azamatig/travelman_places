@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travelman/pages/chat/stories/tiktok_main.dart';
+import 'package:travelman/utils/next_screen.dart';
 
 import '../../../export.dart';
 import '../widgets/add_post_widget.dart';
@@ -40,18 +43,27 @@ class _PostsScreenState extends State<FeedScreen> {
               title: Text(
                 t.Feed.title,
                 style: GoogleFonts.abrilFatface(
-                    textStyle:
-                        theme.textTheme.headline6.copyWith(fontSize: 24)),
+                    textStyle: theme.textTheme.headline6
+                        .copyWith(fontSize: 24, color: Colors.white)),
               ),
               leading: IconButton(
                 icon: Icon(
                   Icons.menu,
-                  color: theme.iconTheme.color,
+                  color: Colors.white,
                 ),
                 onPressed: () =>
                     controller.scaffoldKey.currentState.openDrawer(),
               ),
-              actions: <Widget>[ChatIcon()],
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(
+                    Feather.video,
+                    color: Colors.white,
+                  ),
+                  onPressed: () => nextScreen(context, TiktokHome()),
+                ),
+                ChatIcon()
+              ],
               bottom: PreferredSize(
                 preferredSize: Size(double.infinity, 40),
                 child: PostsSortingWidget(

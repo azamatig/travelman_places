@@ -6,8 +6,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path_helper;
 import 'package:url_launcher/url_launcher.dart';
 
-void showSnackBarMsg(ScaffoldState scaffoldState, String message) {
-  scaffoldState.showSnackBar(
+void showSnackBarMsg(
+    BuildContext context, ScaffoldState scaffoldState, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: Colors.black,
       content: Text(
@@ -41,7 +42,7 @@ Future<String> uploadFile(File file, String childName,
 
     return await snap.ref.getDownloadURL();
   } catch (e, s) {
-    print('Excpetion $e');
+    print('Excpetion $e $s');
 
     return null;
   }

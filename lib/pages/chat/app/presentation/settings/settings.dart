@@ -68,7 +68,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         await authController.userRepo
                             .updateUseInfo(currentUser);
                       }
-                      await Modular.to.pop();
+                      Modular.to.pop();
                       await Modular.get<AuthController>()
                           .addEvent(AuthEvent.logout());
                       BotToast.closeAllLoading();

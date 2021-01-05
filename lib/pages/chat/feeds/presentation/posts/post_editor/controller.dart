@@ -55,7 +55,7 @@ abstract class _PostEditorController with Store {
       return;
     }
     final content = textController.text.trim();
-    if (ProfanityFilter().checkStringForProfanity(content)) {
+    if (ProfanityFilter().hasProfanity(content)) {
       BotToast.showText(
         text: 'Bad words detected, your account may get suspended!',
         duration: Duration(seconds: 5),
@@ -104,6 +104,7 @@ abstract class _PostEditorController with Store {
     } catch (e, s) {
       Logger().e('Error Upload Image', e);
       uploadImgListener = UploadState.failed();
+      print(s);
     }
     uploadImgListener = UploadState.initial();
   }
@@ -118,6 +119,7 @@ abstract class _PostEditorController with Store {
       await postRepo.updatePost(post.id, content, imgUrl);
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -128,6 +130,7 @@ abstract class _PostEditorController with Store {
       _feedController.posts.remove(post);
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 

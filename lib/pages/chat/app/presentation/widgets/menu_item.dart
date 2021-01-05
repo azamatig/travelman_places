@@ -71,6 +71,7 @@ class MenuItem extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: AutoSizeText(
                 title,
+                style: TextStyle(color: Colors.white),
                 maxLines: 1,
                 minFontSize: 10,
               ),

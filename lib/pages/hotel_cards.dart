@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:travelman/utils/wide_button.dart';
@@ -31,6 +30,7 @@ class _HotelCardsState extends State<HotelCards> {
     hotelsInfo = hotelDataDecoded;
   }
 
+  // ignore: missing_return
   Future<List<String>> getHotelPics(var hotelsInfo) async {
     List<String> picUrls = [];
     for (var v in hotelsInfo) {
@@ -158,32 +158,39 @@ class HotelCardWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          BottomSheetTextField((newVal) {
-            //origin = newVal;
-          }, 'First Name',),
-          SizedBox(height: 16),
           BottomSheetTextField(
-                (newVal) {
-              //destination = newVal;
+            (newVal) {
+              //origin = newVal;
             },
-              'Second Name',
+            'First Name',
           ),
           SizedBox(height: 16),
-          BottomSheetTextField((newVal) {
-            //origin = newVal;
-          }, 'phone number',),
+          BottomSheetTextField(
+            (newVal) {
+              //destination = newVal;
+            },
+            'Second Name',
+          ),
           SizedBox(height: 16),
-          BottomSheetTextField((newVal) {
-            //origin = newVal;
-          }, 'email address',),
+          BottomSheetTextField(
+            (newVal) {
+              //origin = newVal;
+            },
+            'phone number',
+          ),
           SizedBox(height: 16),
-          WideButton('book now'.tr(),
-                  () {
-                //implement toast here
-                //BotToast.showText(text:"booked!");  //popup a text toast;
-                //Navigator.pop(context);
-              },
-              kPinBlue),
+          BottomSheetTextField(
+            (newVal) {
+              //origin = newVal;
+            },
+            'email address',
+          ),
+          SizedBox(height: 16),
+          WideButton('book now'.tr(), () {
+            //implement toast here
+            //BotToast.showText(text:"booked!");  //popup a text toast;
+            //Navigator.pop(context);
+          }, kPinBlue),
         ],
       ),
     );

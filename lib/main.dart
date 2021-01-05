@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:travelman/blocs/ads_bloc.dart';
@@ -21,7 +20,6 @@ import 'package:travelman/blocs/search_bloc.dart';
 import 'package:travelman/blocs/sign_in_bloc.dart';
 import 'package:travelman/blocs/sp_state_one.dart';
 import 'package:travelman/blocs/state_bloc.dart';
-import 'package:travelman/pages/chat/app/module.dart';
 import 'package:travelman/pages/splash.dart';
 import 'blocs/sp_state_two.dart';
 import 'package:bot_toast/bot_toast.dart';
@@ -29,7 +27,6 @@ import 'package:bot_toast/bot_toast.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  ModularApp(module: AppModule());
   runApp(
     EasyLocalization(
       supportedLocales: [Locale('en'), Locale('es'), Locale('ru')],

@@ -38,7 +38,9 @@ abstract class _UserControllerBase with Store {
         ..name = name
         ..status = status;
       await userRepo.updateUseInfo(currentUser);
-    } catch (e, s) {}
+    } catch (e, s) {
+      print(e + " " + s);
+    }
   }
 
   void changeProfilePic() async {
@@ -51,6 +53,7 @@ abstract class _UserControllerBase with Store {
         Logger().i('Image Upload URL', url);
       } catch (e, s) {
         Logger().e('Change Profiel Pic', e);
+        print(e + " " + s);
       }
       if (url != null) {
         currentUser.photoUrl = url;

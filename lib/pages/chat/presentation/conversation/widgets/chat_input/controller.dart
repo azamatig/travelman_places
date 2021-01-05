@@ -38,7 +38,7 @@ abstract class _ChatInputController with Store {
   Future<void> sendTextMessage({String message}) async {
     final msgContent = message ?? controller.text.trim();
     if (msgContent.isEmpty) return;
-    if (ProfanityFilter().checkStringForProfanity(msgContent)) {
+    if (ProfanityFilter().hasProfanity(msgContent)) {
       BotToast.showText(
         text: 'Bad words detected, your account may get suspended!',
         duration: Duration(seconds: 5),
@@ -63,7 +63,9 @@ abstract class _ChatInputController with Store {
       _onSend();
       await repo.sendMessage(msg);
       // Logger().i('Message Sent');
-    } catch (e, s) {}
+    } catch (e, s) {
+      print(s);
+    }
   }
 
   @action
@@ -82,7 +84,9 @@ abstract class _ChatInputController with Store {
         msgId: toEditMessage.id,
         content: controller.text,
       );
-    } catch (e, s) {}
+    } catch (e, s) {
+      print(s);
+    }
   }
 
   @action
@@ -106,7 +110,9 @@ abstract class _ChatInputController with Store {
           localPath: null,
         );
         await repo.sendMessage(msg);
-      } catch (e, s) {}
+      } catch (e, s) {
+        print(s);
+      }
     }
   }
 

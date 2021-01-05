@@ -46,6 +46,7 @@ abstract class _DetailsControllerBase with Store {
       );
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -63,6 +64,7 @@ abstract class _DetailsControllerBase with Store {
       );
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -75,6 +77,7 @@ abstract class _DetailsControllerBase with Store {
       membersListController.retry();
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 
@@ -93,6 +96,7 @@ abstract class _DetailsControllerBase with Store {
       );
     } catch (e, s) {
       Logger().e(e);
+      print(s);
     }
   }
 }

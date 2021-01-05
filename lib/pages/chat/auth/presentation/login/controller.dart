@@ -78,6 +78,7 @@ abstract class _LoginController with Store {
     } on CustomAuthException catch (e, s) {
       otpErrorMsg = e.error;
       BotToast.showText(text: e.error);
+      print(s);
     }
     isLogging = false;
   }

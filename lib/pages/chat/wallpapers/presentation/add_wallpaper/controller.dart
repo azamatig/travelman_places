@@ -57,6 +57,7 @@ abstract class _AddWallController with Store {
           } catch (e, s) {
             Logger().e('Error Upload Wallpaper', e);
             uploadImgListener = UploadState.failed();
+            print(s);
           }
         },
         orElse: () {});

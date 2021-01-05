@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/material.dart';
 import 'package:travelman/pages/booking_page/booking_info.dart';
 import 'package:travelman/utils/colors.dart';
@@ -25,8 +24,8 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
 
   List<Widget> popularRoutes = [];
 
-  getFlightData(String origin, String destination, String depDate,
-      String retDate) async {
+  getFlightData(
+      String origin, String destination, String depDate, String retDate) async {
     var flightData = await http.get(
         'https://api.travelpayouts.com/v1/prices/cheap?origin=$origin&destination=$destination&depart_date=$depDate&return_date=$retDate&token=$kToken&currency=USD');
     var flightDataDecoded = jsonDecode(flightData.body);
@@ -36,15 +35,13 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
   createPopularRoutes() async {
     var routesDataDecoded = await getPopularRoutes();
     int currentImg = 1;
-    routesDataDecoded["data"].forEach(
-            (k, v) {
-          Widget popularRoute = PopularRoute(k, v, currentImg);
-          currentImg++;
-          setState(() {
-            popularRoutes.add(popularRoute);
-          });
-        }
-    );
+    routesDataDecoded["data"].forEach((k, v) {
+      Widget popularRoute = PopularRoute(k, v, currentImg);
+      currentImg++;
+      setState(() {
+        popularRoutes.add(popularRoute);
+      });
+    });
   }
 
   getPopularRoutes() async {
@@ -114,7 +111,7 @@ class _TicketSearchScreenState extends State<TicketSearchScreen> {
                     SizedBox(height: 16),
                     InfoTextField(
                       'destination'.tr(),
-                          (newVal) {
+                      (newVal) {
                         destination = newVal;
                       },
                       '3 letter IATA code, example: MOW'.tr(),
@@ -229,13 +226,19 @@ class PopularRoute extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('$route: ',
-                  style: TextStyle(fontWeight: FontWeight.bold,
-                    color: Colors.white, fontSize: 18),),
+                Text(
+                  '$route: ',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 18),
+                ),
                 Text(
                   '$price₽',
-                  style: TextStyle(fontWeight: FontWeight.bold,
-                      color: Colors.white, fontSize: 22),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 22),
                 ),
               ],
             ),
@@ -249,15 +252,14 @@ class PopularRoute extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            padding:
-            EdgeInsets.fromLTRB(5, 90, 5, 8)
+            padding: EdgeInsets.fromLTRB(5, 90, 5, 8)),
+        SizedBox(
+          width: 20,
         ),
-        SizedBox(width: 20,),
       ],
     );
   }
 }
-
 
 class InfoTextField extends StatelessWidget {
   final String hintText;

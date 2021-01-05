@@ -42,6 +42,7 @@ abstract class _AuthController with Store {
           }
         } catch (e, s) {
           authState = AuthState.unauthenticated();
+          print(e + " " + s);
         }
       },
       loggedIn: (uid) async {

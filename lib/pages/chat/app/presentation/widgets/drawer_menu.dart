@@ -20,9 +20,10 @@ class DrawerMenu extends StatelessWidget {
         children: <Widget>[
           SizedBox(height: 10),
           MenuItem(
+            color: Colors.blueAccent,
             icon: Icon(
               Icons.group,
-              color: Colors.black,
+              color: Colors.white,
             ),
             title: t.Settings.groups_msgs,
             drawerState: DrawerState.GROUPS,
@@ -31,16 +32,17 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
           Container(
-            color: theme.secondaryHeaderColor,
+            color: Colors.pinkAccent,
             height: 2,
             width: 48,
             margin: EdgeInsets.symmetric(vertical: 8),
           ),
           MenuItem(
+            color: Colors.blueAccent,
             icon: Badge(
               child: Icon(
                 Icons.notifications,
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
             title: t.Drawer.notifications,
@@ -50,15 +52,16 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
           Container(
-            color: theme.primaryColorDark,
+            color: Colors.yellowAccent,
             height: 2,
             width: 48,
             margin: EdgeInsets.symmetric(vertical: 8),
           ),
           MenuItem(
+            color: Colors.blueAccent,
             icon: Icon(
               Icons.image,
-              color: Colors.black,
+              color: Colors.white,
             ),
             title: t.Drawer.wallpapers,
             action: WallpaperModule.toWallpapers,
@@ -73,7 +76,7 @@ class DrawerMenu extends StatelessWidget {
             MenuItem(
               icon: Icon(
                 FontAwesomeIcons.lock,
-                color: Colors.black,
+                color: Colors.white,
               ),
               title: t.Drawer.admin,
               action: AppModule.toAdminScreen,
@@ -94,7 +97,10 @@ class DrawerMenu extends StatelessWidget {
           ),
           SizedBox(height: 10),
           IconButton(
-            icon: Icon(Icons.person_outline),
+            icon: Icon(
+              Icons.person_outline,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.pop(context);
               AuthModule.toMyProfile();
@@ -102,7 +108,10 @@ class DrawerMenu extends StatelessWidget {
           ),
           SizedBox(height: 10),
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.white,
+            ),
             onPressed: () {
               Navigator.pop(context);
               AppModule.toSettings();
