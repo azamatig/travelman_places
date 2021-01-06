@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:provider/provider.dart';
 import 'package:travelman/blocs/sign_in_bloc.dart';
 import 'package:http/http.dart' as http;

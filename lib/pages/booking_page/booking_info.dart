@@ -5,7 +5,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/wide_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:bot_toast/bot_toast.dart';
 import 'package:provider/provider.dart';
 import 'package:travelman/blocs/sign_in_bloc.dart';
 
