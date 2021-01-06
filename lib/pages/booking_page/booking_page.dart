@@ -30,6 +30,7 @@ class _BookingMainState extends State<BookingMain>
   var currentDealsJson;
   Address address;
   Map<String, double> currentLocation = Map();
+
   List<Widget> currentDeals = [];
   List<String> currentDealsPicsUrls = [];
 
@@ -69,7 +70,7 @@ class _BookingMainState extends State<BookingMain>
           child: Stack(
             children: [
               Hero(
-                tag: 'lmao',
+                tag: 'anime$piclistIndex',
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: CustomCacheImage(imageUrl: picList[piclistIndex])),
