@@ -2,20 +2,19 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoder/model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:travelman/data/location.dart';
 import 'package:travelman/pages/booking_page/hotel_details.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/next_screen.dart';
 import 'package:travelman/utils/wide_button.dart';
 import 'package:travelman/widgets/custom_cache_image.dart';
-import 'package:travelman/widgets/recommendImage.dart';
-import 'package:travelman/widgets/textStyles.dart';
 import 'package:travelman/widgets/booking_page_list.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:travelman/pages/hotel_cards.dart';
 import 'flights_widget.dart';
-import 'package:travelman/utils/loading_cards.dart';
 
 class BookingMain extends StatefulWidget {
   @override
@@ -29,24 +28,19 @@ class _BookingMainState extends State<BookingMain>
   String country;
   var picList;
   var currentDealsJson;
-  List<Widget> loadingDeals = [
-    LoadingPopularPlacesCard(),
-    LoadingPopularPlacesCard(),
-    LoadingPopularPlacesCard(),
-    LoadingPopularPlacesCard(),
-    LoadingPopularPlacesCard()
-  ];
-
+  Address address;
+  Map<String, double> currentLocation = Map();
   List<Widget> currentDeals = [];
   List<String> currentDealsPicsUrls = [];
 
-  getBookingMainInfo(String latitude, String longitude) async {
+  getBookingMainInfo() async {
+    address = await getUserLocation();
+    var long = address.coordinates.longitude;
+    var lat = address.coordinates.latitude;
     var bookingPageData = await http.get(
-        'http://engine.hotellook.com/api/v2/lookup.json?query=$latitude,$longitude&lang=en&lookFor=both&limit=5&token=f41230bc222d3528d8909d1def2913d3');
+        'http://engine.hotellook.com/api/v2/lookup.json?query=$lat,$long&lang=en&lookFor=both&limit=5&token=f41230bc222d3528d8909d1def2913d3');
     var bookingPageDataDecoded = jsonDecode(bookingPageData.body);
-    // setState(() {
     currentDealsJson = bookingPageDataDecoded;
-    //});
   }
 
   getCurrentDealsPicsUrls(var bookingPageDataDecoded) async {
@@ -60,9 +54,7 @@ class _BookingMainState extends State<BookingMain>
           'https://photo.hotellook.com/image_v2/limit/${picIdsDecoded[hotelId][0]}/400/250.auto';
       picUrls.add(picUrl);
     }
-    // setState(() {
     picList = picUrls;
-    // });
   }
 
   generateCurrentDealWidgets() {
@@ -85,7 +77,8 @@ class _BookingMainState extends State<BookingMain>
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                  padding:
+                      const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                   child: Text(
                     v["name"],
                     maxLines: 2,
@@ -107,6 +100,7 @@ class _BookingMainState extends State<BookingMain>
       });
     }
   }
+
 /*
   InkWell(
   onTap: () {
@@ -118,8 +112,6 @@ class _BookingMainState extends State<BookingMain>
   currentDealsJson["results"]["locations"][0]["name"],
   ),
   )
-
-
  */
   Future<Null> _selectDepDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -148,7 +140,9 @@ class _BookingMainState extends State<BookingMain>
   @override
   void initState() {
     super.initState();
-    getBookingMainInfo('53.408777', '-2.981006').then((value) {
+    currentLocation['latitude'] = 0.0;
+    currentLocation['longitude'] = 0.0;
+    getBookingMainInfo().then((value) {
       getCurrentDealsPicsUrls(currentDealsJson).then((value) {
         generateCurrentDealWidgets();
         print('done');
@@ -168,7 +162,7 @@ class _BookingMainState extends State<BookingMain>
       appBar: AppBar(
         backgroundColor: kwhite,
         title:
-        Text("booking", style: TextStyle(fontSize: 25, color: kblack)).tr(),
+            Text("booking", style: TextStyle(fontSize: 25, color: kblack)).tr(),
         centerTitle: true,
         elevation: 0.0,
       ),
@@ -195,8 +189,7 @@ class _BookingMainState extends State<BookingMain>
                         width: 185,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            border:
-                            Border.all(width: 1, color: Colors.grey)),
+                            border: Border.all(width: 1, color: Colors.grey)),
                         child: GestureDetector(
                           onTap: () => _selectDepDate(context),
                           child: Padding(
@@ -236,8 +229,7 @@ class _BookingMainState extends State<BookingMain>
                         width: 185,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            border:
-                            Border.all(width: 1, color: Colors.grey)),
+                            border: Border.all(width: 1, color: Colors.grey)),
                         child: GestureDetector(
                           onTap: () => _selectArrDate(context),
                           child: Padding(
@@ -274,19 +266,19 @@ class _BookingMainState extends State<BookingMain>
                 ),
                 WideButton(
                   'Искать',
-                      () {
+                  () {
                     String depDateAsString =
-                    selectedDepDate.toString().substring(0, 10);
+                        selectedDepDate.toString().substring(0, 10);
                     String arrDateAsString =
-                    selectedArrDate.toString().substring(0, 10);
+                        selectedArrDate.toString().substring(0, 10);
                     // var hotelDataDecoded = await getHotelInfo(
                     //, depDateAsString, arrDateAsString);
                     //var picList = await getHotelPics(hotelDataDecoded);
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => HotelCards(country,
-                                depDateAsString, arrDateAsString)));
+                            builder: (context) => HotelCards(
+                                country, depDateAsString, arrDateAsString)));
                   },
                   kPinBlue,
                 ),
@@ -300,7 +292,9 @@ class _BookingMainState extends State<BookingMain>
                 BookingPageList(currentDeals),
               ],
             ),
-            Expanded(child: Container(),),
+            Expanded(
+              child: Container(),
+            ),
           ],
         ),
       ),

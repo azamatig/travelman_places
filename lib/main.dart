@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<AdsBloc>(create: (context) => AdsBloc()),
       ],
       child: MaterialApp(
-          //builder: BotToastInit(),
+          builder: BotToastInit(),
           navigatorObservers: [BotToastNavigatorObserver()],
           supportedLocales: context.supportedLocales,
           localizationsDelegates: context.localizationDelegates,
