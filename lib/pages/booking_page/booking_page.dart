@@ -7,8 +7,10 @@ import 'package:travelman/pages/booking_page/hotel_details.dart';
 import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/next_screen.dart';
 import 'package:travelman/utils/wide_button.dart';
+import 'package:travelman/widgets/custom_cache_image.dart';
 import 'package:travelman/widgets/recommendImage.dart';
 import 'package:travelman/widgets/textStyles.dart';
+import 'package:travelman/widgets/booking_page_list.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:travelman/pages/hotel_cards.dart';
@@ -67,14 +69,37 @@ class _BookingMainState extends State<BookingMain>
     int piclistIndex = 0;
     for (var v in currentDealsJson["results"]["hotels"]) {
       Widget currentDeal = InkWell(
-        onTap: () {
-          nextScreen(context, HotelOverviewPage());
-        },
-        child: RecommendationImage(
-          picList[piclistIndex],
-          v["name"],
-          currentDealsJson["results"]["locations"][0]["name"],
+        child: Container(
+          margin: EdgeInsets.only(left: 0, right: 10, top: 5, bottom: 5),
+          width: MediaQuery.of(context).size.width * 0.36,
+          decoration: BoxDecoration(
+              color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+          child: Stack(
+            children: [
+              Hero(
+                tag: 'lmao',
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CustomCacheImage(imageUrl: picList[piclistIndex])),
+              ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                  child: Text(
+                    v["name"],
+                    maxLines: 2,
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
+        onTap: () => nextScreen(context, HotelOverviewPage()),
       );
       piclistIndex++;
       setState(() {
@@ -82,7 +107,20 @@ class _BookingMainState extends State<BookingMain>
       });
     }
   }
+/*
+  InkWell(
+  onTap: () {
+  nextScreen(context, HotelOverviewPage());
+  },
+  child: RecommendationImage(
+  picList[piclistIndex],
+  v["name"],
+  currentDealsJson["results"]["locations"][0]["name"],
+  ),
+  )
 
+
+ */
   Future<Null> _selectDepDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
@@ -259,30 +297,7 @@ class _BookingMainState extends State<BookingMain>
             ),
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    BoldText("current deals".tr(), 20.0, kblack),
-                    BoldText("more".tr(), 16, kdarkBlue),
-                  ],
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Container(
-                  //width: 400,
-                  height: 200,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: loadingDeals.length, //currentDeals.length,
-                    itemBuilder: (context, index) {
-                      if (currentDeals.length < 5)
-                        return loadingDeals[index];
-                      else
-                        return currentDeals[index];
-                    },
-                  ),
-                ),
+                BookingPageList(currentDeals),
               ],
             ),
             Expanded(child: Container(),),
