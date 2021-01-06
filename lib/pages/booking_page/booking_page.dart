@@ -8,14 +8,11 @@ import 'package:travelman/utils/colors.dart';
 import 'package:travelman/utils/next_screen.dart';
 import 'package:travelman/utils/wide_button.dart';
 import 'package:travelman/widgets/custom_cache_image.dart';
-import 'package:travelman/widgets/recommendImage.dart';
-import 'package:travelman/widgets/textStyles.dart';
 import 'package:travelman/widgets/booking_page_list.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:travelman/pages/hotel_cards.dart';
 import 'flights_widget.dart';
-import 'package:travelman/utils/loading_cards.dart';
 
 class BookingMain extends StatefulWidget {
   @override
@@ -29,13 +26,6 @@ class _BookingMainState extends State<BookingMain>
   String country;
   var picList;
   var currentDealsJson;
-  List<Widget> loadingDeals = [
-    LoadingPopularPlacesCard(),
-    LoadingPopularPlacesCard(),
-    LoadingPopularPlacesCard(),
-    LoadingPopularPlacesCard(),
-    LoadingPopularPlacesCard()
-  ];
 
   List<Widget> currentDeals = [];
   List<String> currentDealsPicsUrls = [];
@@ -77,7 +67,7 @@ class _BookingMainState extends State<BookingMain>
           child: Stack(
             children: [
               Hero(
-                tag: 'lmao',
+                tag: 'anime$piclistIndex',
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: CustomCacheImage(imageUrl: picList[piclistIndex])),
