@@ -1,4 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
@@ -14,8 +14,7 @@ import 'package:travelman/pages/user_posts/post_comments.dart';
 import 'package:travelman/pages/user_posts/post_details.dart';
 import 'package:travelman/pages/user_posts/post_likes.dart';
 import 'package:provider/provider.dart';
-import 'package:travelman/pages/user_posts/user_post_uploader.dart';
-import 'package:travelman/utils/next_screen.dart';
+
 
 class UserPostSection extends StatefulWidget {
   UserPostSection({
@@ -35,7 +34,6 @@ class _UserPostSectionState extends State<UserPostSection> {
   @override
   Widget build(BuildContext context) {
     final pb = context.watch<SignInBloc>();
-    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
       height: 200,
       padding: EdgeInsets.only(top: 5.0),

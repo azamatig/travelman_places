@@ -12,8 +12,6 @@ class ChatHome extends StatefulWidget {
 
 class _ChatHomeState extends State<ChatHome> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   List<Widget> _widgetOptions = <Widget>[
     ListFriend(),
     ListPeople(),
