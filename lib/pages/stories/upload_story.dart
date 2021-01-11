@@ -1,33 +1,37 @@
 import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:travelman/data/location.dart';
-import 'package:travelman/data/old_repo.dart';
+import 'package:travelman/utils/colors.dart';
+import 'package:travelman/widgets/consts_temp.dart';
 import 'package:uuid/uuid.dart';
 
-class Uploader extends StatefulWidget {
+class UploadStory extends StatefulWidget {
+  final String userId;
+  final String name;
   final String profileImageUrl;
+  final bool isOperator;
 
-  const Uploader({Key key, this.profileImageUrl}) : super(key: key);
+  const UploadStory(
+      {Key key, this.userId, this.name, this.profileImageUrl, this.isOperator})
+      : super(key: key);
 
-  _Uploader createState() => _Uploader();
+  _UploadStory createState() => _UploadStory();
 }
 
-class _Uploader extends State<Uploader> {
+class _UploadStory extends State<UploadStory> {
   File file;
   //Strings required to save address
   Address address;
-  String userPhoto;
-  String userUid;
   Map<String, double> currentLocation = Map();
   TextEditingController descriptionController = TextEditingController();
   TextEditingController locationController = TextEditingController();
-  final _repository = Repository();
 
   bool uploading = false;
 
@@ -43,40 +47,38 @@ class _Uploader extends State<Uploader> {
   //method to get Location and save into variables
 
   initPlatformState() async {
-    String photoUrl =
-        await _repository.getCurrentUser().then((value) => value.photoURL);
-    String ownerId =
-        await _repository.getCurrentUser().then((value) => value.uid);
     Address first = await getUserLocation();
     if (mounted) {
       setState(() {
         address = first;
-        userPhoto = photoUrl;
-        userUid = ownerId;
       });
     }
   }
 
   Widget build(BuildContext context) {
     return file == null
-        ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              IconButton(
-                  icon: Icon(
-                    FontAwesomeIcons.plusCircle,
-                    color: Colors.blueAccent,
-                    size: 40,
-                  ),
-                  onPressed: () => {_selectImage(context)}),
-              SizedBox(height: 20),
-              Text(
-                'Сделать новый Post',
-                style: GoogleFonts.poppins(
-                    fontSize: 20, fontWeight: FontWeight.w600),
-              )
-            ],
+        ? Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                      icon: Icon(
+                        FontAwesomeIcons.plusCircle,
+                        color: kPinBlue,
+                        size: 20,
+                      ),
+                      onPressed: () => {_selectImage(context)}),
+                  SizedBox(height: 20),
+                  Text(
+                    'Сделать Story',
+                    style: GoogleFonts.poppins(
+                        fontSize: 14, fontWeight: FontWeight.w600),
+                  )
+                ],
+              ),
+            ),
           )
         : Scaffold(
             resizeToAvoidBottomPadding: false,
@@ -92,7 +94,11 @@ class _Uploader extends State<Uploader> {
               actions: <Widget>[
                 FlatButton(
                     onPressed: () {
-                      postImage();
+                      if (widget.isOperator == true) {
+                        _selectWhereToPost(context);
+                      } else {
+                        postImage();
+                      }
                     },
                     child: Text(
                       "Post",
@@ -110,7 +116,7 @@ class _Uploader extends State<Uploader> {
                   descriptionController: descriptionController,
                   locationController: locationController,
                   loading: uploading,
-                  userPhoto: userPhoto,
+                  profileImageUrl: widget.profileImageUrl,
                 ),
                 Divider(), //scroll view where we will show location to users
                 (address == null)
@@ -173,7 +179,7 @@ class _Uploader extends State<Uploader> {
       builder: (BuildContext context) {
         final _picker = ImagePicker();
         return SimpleDialog(
-          title: const Text('Звгрузить фото'),
+          title: const Text('Создать post'),
           children: <Widget>[
             SimpleDialogOption(
                 child: const Text('Фото'),
@@ -189,8 +195,8 @@ class _Uploader extends State<Uploader> {
                 child: const Text('Выбрать из галереи'),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  final _picker = ImagePicker();
-                  PickedFile imageFile = await _picker.getImage(
+                  var pick = ImagePicker();
+                  PickedFile imageFile = await pick.getImage(
                       source: ImageSource.gallery,
                       maxWidth: 1920,
                       maxHeight: 1200,
@@ -198,6 +204,32 @@ class _Uploader extends State<Uploader> {
                   setState(() {
                     file = File(imageFile.path);
                   });
+                }),
+            SimpleDialogOption(
+              child: const Text("Отмена"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  _selectWhereToPost(context) {
+    return showDialog<Null>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('Отправиать post'),
+          children: <Widget>[
+            SimpleDialogOption(
+                child: const Text('Турист лента'),
+                onPressed: () async {
+                  postImage();
+                  Navigator.of(context).pop();
                 }),
             SimpleDialogOption(
               child: const Text("Отмена"),
@@ -223,65 +255,30 @@ class _Uploader extends State<Uploader> {
     });
     uploadImage(file).then((String data) {
       postToFireStore(
-          profileImgUrl: userPhoto,
-          mediaUrl: data,
-          name: '',
-          userId: userUid,
-          description: descriptionController.text,
-          location: locationController.text);
-    });
-    setState(() {
-      file = null;
-      uploading = false;
+        mediaUrl: data,
+        description: descriptionController.text,
+      );
+    }).then((_) {
+      setState(() {
+        file = null;
+        uploading = false;
+      });
     });
   }
-}
-
-Future<String> uploadImage(var imageFile) async {
-  var uuid = Uuid().v1();
-  StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
-  StorageUploadTask uploadTask = ref.putFile(imageFile);
-
-  String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
-  return downloadUrl;
-}
-
-void postToFireStore(
-    {BuildContext context,
-    String name,
-    String userId,
-    String mediaUrl,
-    String location,
-    String profileImgUrl,
-    String description,
-    bool isOperator}) async {
-  var reference = FirebaseFirestore.instance.collection('posts');
-  reference.add({
-    "postOwnerName": name,
-    "postOwnerPhotoUrl": profileImgUrl,
-    "location": location,
-    "imgUrl": mediaUrl,
-    "caption": description,
-    "ownerUid": userId,
-    "time": DateTime.now(),
-  }).then((DocumentReference doc) {
-    String docId = doc.id;
-    reference.doc(docId).update({"postId": docId});
-  });
 }
 
 class PostForm extends StatelessWidget {
   final imageFile;
   final TextEditingController descriptionController;
   final TextEditingController locationController;
-  final String userPhoto;
+  final String profileImageUrl;
   final bool loading;
   PostForm({
     this.imageFile,
     this.descriptionController,
     this.loading,
     this.locationController,
-    this.userPhoto,
+    this.profileImageUrl,
   });
 
   Widget build(BuildContext context) {
@@ -295,7 +292,7 @@ class PostForm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             CircleAvatar(
-              backgroundImage: NetworkImage(userPhoto),
+              backgroundImage: NetworkImage(profileImageUrl),
             ),
             Container(
               width: 250.0,
@@ -338,4 +335,32 @@ class PostForm extends StatelessWidget {
       ],
     );
   }
+}
+
+Future<String> uploadImage(var imageFile) async {
+  var uuid = Uuid().v1();
+  StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
+  StorageUploadTask uploadTask = ref.putFile(imageFile);
+
+  String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
+  return downloadUrl;
+}
+
+void postToFireStore({
+  BuildContext context,
+  String mediaUrl,
+  String description,
+}) async {
+  storiesRef.add({
+    "date": DateTime.now(),
+    "file": FieldValue.arrayUnion([
+      {
+        "fileTitle": {'en': description},
+        "fileType": 'image',
+        'url': {'en': mediaUrl}
+      },
+    ]),
+    "previewImage": mediaUrl,
+    "previewTitle": {'en': ''},
+  });
 }

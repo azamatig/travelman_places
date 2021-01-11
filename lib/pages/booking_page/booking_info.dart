@@ -21,7 +21,6 @@ class TicketInfoScreen extends StatelessWidget {
 
   List<Widget> airfares = [];
 
-
   void createAirfares(var context) {
     for (var v in flightDataDecoded["data"][destination]?.values) {
       //String airline = '${v['airline']}';
@@ -145,50 +144,53 @@ class Ticket extends StatelessWidget {
       ),
       child: ListView(
         children: [
-          BottomSheetTextField((newVal) {
-            clientFirstName = newVal;
-          }, 'First Name',),
+          BottomSheetTextField(
+            (newVal) {
+              clientFirstName = newVal;
+            },
+            'First Name',
+          ),
           SizedBox(height: 16),
           BottomSheetTextField(
-                (newVal) {
+            (newVal) {
               clientSecondName = newVal;
             },
             'Second Name',
           ),
           SizedBox(height: 16),
-          BottomSheetTextField((newVal) {
-            clientPhone = newVal;
-          }, 'phone number',),
+          BottomSheetTextField(
+            (newVal) {
+              clientPhone = newVal;
+            },
+            'phone number',
+          ),
           SizedBox(height: 16),
-          BottomSheetTextField((newVal) {
-            clientEmail = newVal;
-          }, 'email address',),
+          BottomSheetTextField(
+            (newVal) {
+              clientEmail = newVal;
+            },
+            'email address',
+          ),
           SizedBox(height: 16),
-          WideButton('book now'.tr(),
-                  () {
-                String timestamp = DateTime.now()
-                    .millisecondsSinceEpoch
-                    .toString();
-                firestore
-                    .collection('tickets')
-                    .doc(timestamp)
-                    .set({
-                  'origin': origin,
-                  'destination': destination,
-                  'price': '${v["price"].toString()}' + '  ' + 'currency'.tr(),
-                  'depDate': v["departure_at"],
-                  'arrDate': v["return_at"],
-                  'airline' : '${v['airline']}',
-                  'clientName': '$clientFirstName $clientSecondName',
-                  'clientPhone': clientPhone,
-                  'clientEmail': clientEmail,
-                  'clientAvatar': "https://3znvnpy5ek52a26m01me9p1t-wpengine.netdna-ssl.com/wp-content/uploads/2017/07/noimage_person.png",
-                  'timestamp': timestamp,
-                });
-                Navigator.pop(context);
-                //BotToast.showText(text: "booked!");
-              },
-              kPinBlue),
+          WideButton('book now'.tr(), () {
+            String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+            firestore.collection('tickets').doc(timestamp).set({
+              'origin': origin,
+              'destination': destination,
+              'price': '${v["price"].toString()}' + '  ' + 'currency'.tr(),
+              'depDate': v["departure_at"],
+              'arrDate': v["return_at"],
+              'airline': '${v['airline']}',
+              'clientName': '$clientFirstName $clientSecondName',
+              'clientPhone': clientPhone,
+              'clientEmail': clientEmail,
+              'clientAvatar':
+                  "https://3znvnpy5ek52a26m01me9p1t-wpengine.netdna-ssl.com/wp-content/uploads/2017/07/noimage_person.png",
+              'timestamp': timestamp,
+            });
+            Navigator.pop(context);
+            //BotToast.showText(text: "booked!");
+          }, kPinBlue),
         ],
       ),
     );
@@ -215,8 +217,7 @@ class Ticket extends StatelessWidget {
                 children: [
                   Text(
                     v["departure_at"].substring(11, 16),
-                    style:
-                    TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: 5),
                   Text(
@@ -236,8 +237,7 @@ class Ticket extends StatelessWidget {
                 children: [
                   Text(
                     v["return_at"].substring(11, 16),
-                    style:
-                    TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(height: 5),
                   Text(
@@ -263,8 +263,7 @@ class Ticket extends StatelessWidget {
                   ),
                   Text(
                     '$airline',
-                    style:
-                    TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -278,45 +277,37 @@ class Ticket extends StatelessWidget {
             ],
           ),
           SizedBox(height: 25),
-          WideButton('book now'.tr(),
-                  () {
-                if(sb.isSignedIn == false) {
-                  showModalBottomSheet(
-                    context: context,
-                    builder: (context) => builderBottomSheet(context, v),
-                    backgroundColor: Colors.transparent,
-                  );
-                }
-                else{
-                  String timestamp = DateTime.now()
-                      .millisecondsSinceEpoch
-                      .toString();
-                  firestore
-                      .collection('tickets')
-                      .doc(timestamp)
-                      .set({
-                    'origin': origin,
-                    'destination': destination,
-                    'price': '${v["price"].toString()}' + '  ' + 'currency'.tr(),
-                    'depDate': v["departure_at"],
-                    'arrDate': v["return_at"],
-                    'airline' : '${v['airline']}',
-                    'clientName': sb.name,
-                    'clientPhone': '',
-                    'clientEmail': sb.email,
-                    'clientAvatar': sb.imageUrl,
-                    'timestamp': timestamp,
-                  });
-                  Navigator.pop(context);
-                }
-              },
-              kPinBlue),
+          WideButton('book now'.tr(), () {
+            if (sb.isSignedIn == false) {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) => builderBottomSheet(context, v),
+                backgroundColor: Colors.transparent,
+              );
+            } else {
+              String timestamp =
+                  DateTime.now().millisecondsSinceEpoch.toString();
+              firestore.collection('tickets').doc(timestamp).set({
+                'origin': origin,
+                'destination': destination,
+                'price': '${v["price"].toString()}' + '  ' + 'currency'.tr(),
+                'depDate': v["departure_at"],
+                'arrDate': v["return_at"],
+                'airline': '${v['airline']}',
+                'clientName': sb.name,
+                'clientPhone': '',
+                'clientEmail': sb.email,
+                'clientAvatar': sb.imageUrl,
+                'timestamp': timestamp,
+              });
+              Navigator.pop(context);
+            }
+          }, kPinBlue),
         ],
       ),
     );
   }
 }
-
 
 class BottomSheetTextField extends StatelessWidget {
   final updateString;

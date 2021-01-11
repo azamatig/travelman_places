@@ -7,7 +7,6 @@ class UserModel {
   String displayName;
   Map followers;
   Map following;
-  List<String> blockedUsers;
   String posts;
   String bio;
   String phone;
@@ -19,7 +18,6 @@ class UserModel {
       this.displayName,
       this.followers,
       this.following,
-      this.blockedUsers,
       this.bio,
       this.posts,
       this.phone});
@@ -28,12 +26,11 @@ class UserModel {
     var data = Map<String, dynamic>();
     data['uid'] = user.uid;
     data['email'] = user.email;
-    data['image url'] = user.photoUrl;
+    data['photoUrl'] = user.photoUrl;
     data['name'] = user.displayName;
     data['followers'] = user.followers;
     data['following'] = user.following;
     data['bio'] = user.bio;
-    data['blockerUsers'] = user.blockedUsers;
     data['posts'] = user.posts;
     data['phone'] = user.phone;
     return data;
@@ -42,11 +39,10 @@ class UserModel {
   UserModel.fromMap(Map<String, dynamic> mapData) {
     this.uid = mapData['uid'];
     this.email = mapData['email'];
-    this.photoUrl = mapData['image url'];
+    this.photoUrl = mapData['photoUrl'];
     this.displayName = mapData['name'];
     this.followers = mapData['followers'];
     this.following = mapData['following'];
-    this.blockedUsers = mapData['blockedUsers'];
     this.bio = mapData['bio'];
     this.posts = mapData['posts'];
     this.phone = mapData['phone'];
@@ -57,11 +53,10 @@ class UserModel {
     return UserModel(
       uid: d['uid'],
       email: d['email'],
-      photoUrl: d['image url'],
+      photoUrl: d['photoUrl'],
       displayName: d['name'],
       followers: d['followers'],
       following: d['following'],
-      blockedUsers: d['blockedUsers'],
       bio: d['bio'],
       posts: d['posts'],
       phone: d['phone'],

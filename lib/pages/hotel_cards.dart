@@ -163,49 +163,52 @@ class HotelCardWidget extends StatelessWidget {
       ),
       child: ListView(
         children: [
-          BottomSheetTextField((newVal) {
-              clientFirstName = newVal;
-          }, 'First Name',),
-          SizedBox(height: 16),
           BottomSheetTextField(
-                (newVal) {
-              clientSecondName = newVal;
+            (newVal) {
+              clientFirstName = newVal;
             },
-              'Second Name',
+            'First Name',
           ),
           SizedBox(height: 16),
-          BottomSheetTextField((newVal) {
+          BottomSheetTextField(
+            (newVal) {
+              clientSecondName = newVal;
+            },
+            'Second Name',
+          ),
+          SizedBox(height: 16),
+          BottomSheetTextField(
+            (newVal) {
               clientPhone = newVal;
-          }, 'phone number',),
+            },
+            'phone number',
+          ),
           SizedBox(height: 16),
-          BottomSheetTextField((newVal) {
+          BottomSheetTextField(
+            (newVal) {
               clientEmail = newVal;
-          }, 'email address',),
+            },
+            'email address',
+          ),
           SizedBox(height: 16),
-          WideButton('book now'.tr(),
-                  () {
-                    String timestamp = DateTime.now()
-                        .millisecondsSinceEpoch
-                        .toString();
-                    firestore
-                        .collection('Booking')
-                        .doc(timestamp)
-                        .set({
-                      'hotelName': hotelName,
-                      'price': price,
-                      'depDate': depDate,
-                      'arrDate': arrDate,
-                      'imageUrl': imageUrl,
-                      'clientName': '$clientFirstName $clientSecondName',
-                      'clientPhone': clientPhone,
-                      'clientEmail': clientEmail,
-                      'clientAvatar': "https://www.doctorlasercursos.com.br/uploads/avatars/2016/06/empty-avatar.jpg",
-                      'timestamp': timestamp,
-                    });
-                    Navigator.pop(context);
-                    //BotToast.showText(text: "booked!");
-              },
-              kPinBlue),
+          WideButton('book now'.tr(), () {
+            String timestamp = DateTime.now().millisecondsSinceEpoch.toString();
+            firestore.collection('Booking').doc(timestamp).set({
+              'hotelName': hotelName,
+              'price': price,
+              'depDate': depDate,
+              'arrDate': arrDate,
+              'imageUrl': imageUrl,
+              'clientName': '$clientFirstName $clientSecondName',
+              'clientPhone': clientPhone,
+              'clientEmail': clientEmail,
+              'clientAvatar':
+                  "https://www.doctorlasercursos.com.br/uploads/avatars/2016/06/empty-avatar.jpg",
+              'timestamp': timestamp,
+            });
+            Navigator.pop(context);
+            //BotToast.showText(text: "booked!");
+          }, kPinBlue),
         ],
       ),
     );
@@ -281,14 +284,13 @@ class HotelCardWidget extends StatelessWidget {
                               icon: Icon(Icons.arrow_forward),
                               color: Colors.black,
                               onPressed: () {
-                                if(sb.isSignedIn == false) {
+                                if (sb.isSignedIn == false) {
                                   showModalBottomSheet(
                                     context: context,
                                     builder: builderBottomSheet,
                                     backgroundColor: Colors.transparent,
                                   );
-                                }
-                                else{
+                                } else {
                                   String timestamp = DateTime.now()
                                       .millisecondsSinceEpoch
                                       .toString();

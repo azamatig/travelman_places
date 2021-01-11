@@ -151,6 +151,9 @@
   "Sorry, no tickets available": "Извините, на данный момент билетов нет",
   "search": "Поиск",
   "nearby": "Рядом",
-
-  "Name of the city": "Название города"
+  "feed": "Лента",
+  "tours": "Туры",
+  "Name of the city": "Название города",
+  "couldn't find hotel": "Ничего не найдено",
+  "couldn't find hotels nearby": "Мы не смогли найти отель рядом с Вами, попробуйте еще раз позже"
 }
