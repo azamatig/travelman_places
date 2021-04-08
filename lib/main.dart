@@ -22,18 +22,21 @@ import 'package:travelman/blocs/sp_state_one.dart';
 import 'package:travelman/blocs/state_bloc.dart';
 import 'package:travelman/pages/splash.dart';
 import 'blocs/sp_state_two.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(EasyLocalization(
-    supportedLocales: [Locale('en'), Locale('es'), Locale('ru')],
-    path: 'assets/translations',
-    fallbackLocale: Locale('en'),
-    startLocale: Locale('en'),
-    useOnlyLangCode: true,
-    child: MyApp(),
-  ));
+  runApp(
+    EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('es'), Locale('ru')],
+      path: 'assets/translations',
+      fallbackLocale: Locale('en'),
+      startLocale: Locale('en'),
+      useOnlyLangCode: true,
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -88,6 +91,8 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<AdsBloc>(create: (context) => AdsBloc()),
       ],
       child: MaterialApp(
+          builder: BotToastInit(),
+          navigatorObservers: [BotToastNavigatorObserver()],
           supportedLocales: context.supportedLocales,
           localizationsDelegates: context.localizationDelegates,
           locale: context.locale,

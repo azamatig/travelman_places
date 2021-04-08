@@ -27,7 +27,6 @@ class _BookmarkPageState extends State<BookmarkPage>
   Widget build(BuildContext context) {
     super.build(context);
     final SignInBloc sb = context.watch<SignInBloc>();
-
     return DefaultTabController(
       length: 2,
       initialIndex: 0,

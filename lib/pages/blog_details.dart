@@ -65,7 +65,7 @@ class _BlogDetailsState extends State<BlogDetails> {
 
   handleShare() {
     Share.share(
-        '${widget.blogData.title}, To read more install ${Config().appName} App. https://play.google.com/store/apps/details?id=kz.pegas.travelman');
+        '${widget.blogData.title}, чтобы узнать больше установите ${Config().appName} App. https://play.google.com/store/apps/details?id=kz.pegas.travelman');
   }
 
   @override

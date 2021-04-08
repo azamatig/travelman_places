@@ -255,7 +255,7 @@ void postToFireStore(
     String profileImgUrl,
     String description,
     bool isOperator}) async {
-  var reference = FirebaseFirestore.instance.collection('users/$userId/posts');
+  var reference = FirebaseFirestore.instance.collection('posts');
   reference.add({
     "postOwnerName": name,
     "postOwnerPhotoUrl": profileImgUrl,

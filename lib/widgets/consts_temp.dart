@@ -1,5 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:travelman/utils/colors.dart';
+
+final _firestore = FirebaseFirestore.instance;
+final String collectionDbName = 'instagram_stories_db';
+final storiesRef = _firestore.collection(collectionDbName);
+final usersRef = _firestore.collection('users');
 
 const kToken = 'f41230bc222d3528d8909d1def2913d3';
 const kInputDecoration = InputDecoration(
@@ -24,4 +31,29 @@ const kInputDecoration = InputDecoration(
   ),
 );
 
-//Textss
+String formatOnlyDate(DateTime dateTime) {
+  if (dateTime == null) {
+    return ' ';
+  }
+  return DateFormat('dd.MM.yyyy').format(dateTime);
+}
+
+String formatDate(DateTime dateTime) {
+  if (dateTime == null) {
+    return ' ';
+  }
+  return DateFormat('dd.MM.yyyy HH:mm').format(dateTime);
+}
+
+String formatHour(DateTime dateTime) {
+  if (dateTime == null) {
+    return ' ';
+  }
+  return DateFormat('HH:mm').format(dateTime);
+}
+
+String readTimeStamp(DateTime date) {
+  var format = new DateFormat.Hm(); // My Format 08:00
+
+  return format.format(date);
+}

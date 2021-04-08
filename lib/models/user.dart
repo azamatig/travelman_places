@@ -27,7 +27,7 @@ class UserModel {
     data['uid'] = user.uid;
     data['email'] = user.email;
     data['photoUrl'] = user.photoUrl;
-    data['displayName'] = user.displayName;
+    data['name'] = user.displayName;
     data['followers'] = user.followers;
     data['following'] = user.following;
     data['bio'] = user.bio;
@@ -40,7 +40,7 @@ class UserModel {
     this.uid = mapData['uid'];
     this.email = mapData['email'];
     this.photoUrl = mapData['photoUrl'];
-    this.displayName = mapData['displayName'];
+    this.displayName = mapData['name'];
     this.followers = mapData['followers'];
     this.following = mapData['following'];
     this.bio = mapData['bio'];
@@ -54,7 +54,7 @@ class UserModel {
       uid: d['uid'],
       email: d['email'],
       photoUrl: d['photoUrl'],
-      displayName: d['displayName'],
+      displayName: d['name'],
       followers: d['followers'],
       following: d['following'],
       bio: d['bio'],

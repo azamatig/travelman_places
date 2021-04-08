@@ -283,7 +283,9 @@ class TodoWidget extends StatelessWidget {
                                 fontSize: 15),
                           ).tr(),
                         ])),
-                onTap: () => nextScreen(context, BookingMain()),
+                onTap: () async {
+                  nextScreen(context, BookingMain());
+                },
               ),
             ],
           ),

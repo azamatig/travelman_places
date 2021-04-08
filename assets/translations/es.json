@@ -123,6 +123,8 @@
     "search tickets": "Buscar entradas",
     "search hotels": "Search hotels",
     "booking": "Reserva",
+    "Results": "Resultados",
+    "popular routes": "rutas populares:",
     "flights": "Vuelos",
     "hotels": "Hoteles",
     "more": "más",
@@ -148,6 +150,10 @@
     "class": "Clase",
     "Sorry, no tickets available": "Lo sentimos, no hay entradas disponibles",
     "search": "Buscar",
-    "nearby": "Nearby"
-
+    "nearby": "Nearby",
+    "Name of the city": "City",
+    "feed": "Feed",
+    "tours": "Tours",
+    "couldn't find hotel": "Couldn't find hotel near you",
+    "couldn't find hotels nearby": "We couldn't find hotels nearby, try again later"
 }

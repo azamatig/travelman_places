@@ -143,8 +143,7 @@ class FirebaseProvider {
 
   Future<List<DocumentSnapshot>> fetchPostLikeDetails(
       DocumentReference reference) async {
-    print("REFERENCE : ${reference.path}");
-    QuerySnapshot snapshot = await reference.collection("likes").get();
+    QuerySnapshot snapshot = await reference.collection("posts/").get();
     return snapshot.docs;
   }
 
@@ -152,7 +151,6 @@ class FirebaseProvider {
       String userId, DocumentReference reference) async {
     DocumentSnapshot snapshot =
         await reference.collection("likes").doc(userId).get();
-    print('DOC ID : ${snapshot.reference.path}');
     return snapshot.exists;
   }
 
@@ -402,11 +400,7 @@ class FirebaseProvider {
       followingUIDs.add(querySnapshot.docs[i].id);
     }
 
-    print("FOLLOWING UIDS : ${followingUIDs.length}");
-
     for (var i = 0; i < followingUIDs.length; i++) {
-      print("SDDSSD : ${followingUIDs[i]}");
-
       //retrievePostByUID(followingUIDs[i]);
       // fetchUserDetailsById(followingUIDs[i]);
 
@@ -417,9 +411,7 @@ class FirebaseProvider {
           .get();
       // postSnapshot.documents;
       for (var i = 0; i < postSnapshot.docs.length; i++) {
-        print("dad : ${postSnapshot.docs[i].id}");
         list.add(postSnapshot.docs[i]);
-        print("ads : ${list.length}");
       }
     }
 
@@ -439,9 +431,29 @@ class FirebaseProvider {
       followingUIDs.add(querySnapshot.docs[i].id);
     }
 
-    for (var i = 0; i < followingUIDs.length; i++) {
-      print("DDDD : ${followingUIDs[i]}");
-    }
+    for (var i = 0; i < followingUIDs.length; i++) {}
     return followingUIDs;
+  }
+
+  static void postLike(
+      DocumentReference reference, String name, String id, String profileImg) {
+    var _like = Like(
+        ownerName: name,
+        ownerPhotoUrl: profileImg,
+        ownerUid: id,
+        timeStamp: FieldValue.serverTimestamp());
+    reference
+        .collection('likes')
+        .doc(id)
+        .set(_like.toMap(_like))
+        .then((value) {});
+    print("Post Liked");
+  }
+
+  static void postUnlike(
+      DocumentReference reference, UserModel currentUser, String id) {
+    reference.collection("likes").doc(id).delete().then((value) {
+      print("Post Unliked");
+    });
   }
 }

@@ -121,8 +121,10 @@
   "buy now" : "Buy This App",
   "buy now subtitle" : "Buy the full source code here and build the app for your country",
   "search tickets": "Поиск билетов",
-  "search hotels": "Поиск отелей",
+  "search hotels": "Бронирование отелей",
   "booking": "Бронирование",
+  "Results": "Результаты",
+  "Popular routes:": "Популярные маршруты:",
   "flights": "Авиа",
   "hotels": "Отели",
   "more": "еще",
@@ -148,5 +150,10 @@
   "class": "Класс",
   "Sorry, no tickets available": "Извините, на данный момент билетов нет",
   "search": "Поиск",
-  "nearby": "Рядом"
+  "nearby": "Рядом",
+  "feed": "Лента",
+  "tours": "Туры",
+  "Name of the city": "Название города",
+  "couldn't find hotel": "Ничего не найдено",
+  "couldn't find hotels nearby": "Мы не смогли найти отель рядом с Вами, попробуйте еще раз позже"
 }

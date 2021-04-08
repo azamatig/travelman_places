@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:md2_tab_indicator/md2_tab_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:travelman/blocs/featured_bloc.dart';
 import 'package:travelman/blocs/popular_places_bloc.dart';
@@ -12,20 +15,20 @@ import 'package:travelman/blocs/sp_state_one.dart';
 import 'package:travelman/blocs/sp_state_two.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:travelman/config/config.dart';
-import 'package:travelman/pages/chat_screens/chat_screen.dart';
+import 'package:travelman/pages/booking_page/booking_page.dart';
+import 'package:travelman/pages/chat/chat_home.dart';
 import 'package:travelman/pages/profile.dart';
 import 'package:travelman/pages/search.dart';
 import 'package:travelman/pages/user_posts/user_post_uploader.dart';
+import 'package:travelman/utils/colors.dart';
+import 'package:travelman/utils/empty.dart';
 import 'package:travelman/utils/next_screen.dart';
 import 'package:travelman/widgets/featured_places.dart';
 import 'package:travelman/widgets/popular_places.dart';
 import 'package:travelman/widgets/recent_places.dart';
 import 'package:travelman/widgets/recommended_places.dart';
-import 'package:travelman/widgets/special_state1.dart';
-import 'package:travelman/widgets/special_state2.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:travelman/widgets/user_posts_section.dart';
-
 import 'booking_page/flights_widget.dart';
 
 class Explore extends StatefulWidget {
@@ -51,34 +54,99 @@ class _ExploreState extends State<Explore> with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: RefreshIndicator(
-            onRefresh: () async {
-              context.read<FeaturedBloc>().onRefresh();
-              context.read<PopularPlacesBloc>().onRefresh(mounted);
-              context.read<RecentPlacesBloc>().onRefresh(mounted);
-              context.read<SpecialStateOneBloc>().onRefresh(mounted);
-              context.read<SpecialStateTwoBloc>().onRefresh(mounted);
-              context.read<RecommandedPlacesBloc>().onRefresh(mounted);
-            },
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Header(),
-                  Featured(),
-                  PopularPlaces(),
-                  UserPostSection(),
-                  RecentPlaces(),
-                  SpecialStateOne(),
-                  SpecialStateTwo(),
-                  RecommendedPlaces()
-                ],
-              ),
-            ),
+    final SignInBloc sb = context.watch<SignInBloc>();
+    return DefaultTabController(
+      length: 2,
+      initialIndex: 0,
+      child: Scaffold(
+          backgroundColor: Colors.white,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: blue,
+            child: Icon(Feather.plus),
+            onPressed: () => nextScreen(context, PostUploader()),
           ),
-        ));
+          appBar: AppBar(
+            centerTitle: false,
+            toolbarHeight: 176,
+            actions: [
+              Flexible(child: Header()),
+            ],
+            bottom: TabBar(
+                labelPadding: EdgeInsets.all(0),
+                indicatorColor: Theme.of(context).primaryColor,
+                isScrollable: false,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey[500],
+                indicatorWeight: 0,
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelStyle: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600),
+                indicator: MD2Indicator(
+                  indicatorHeight: 2,
+                  indicatorSize: MD2IndicatorSize.normal,
+                  indicatorColor: Theme.of(context).primaryColor,
+                ),
+                tabs: [
+                  Tab(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      alignment: Alignment.centerLeft,
+                      child: Text('feed').tr(),
+                    ),
+                    //text: 'Saved Places',
+                  ),
+                  Tab(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      alignment: Alignment.centerLeft,
+                      child: Text('tours').tr(),
+                    ),
+                  )
+                ]),
+          ),
+          body: TabBarView(
+            children: [
+              sb.guestUser == true
+                  ? EmptyPage(
+                      icon: Feather.user_plus,
+                      message: 'sign in first'.tr(),
+                      message1: "sign in to see user feed".tr(),
+                    )
+                  : UserPostSection(),
+              SafeArea(
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<FeaturedBloc>().onRefresh();
+                    context.read<PopularPlacesBloc>().onRefresh(mounted);
+                    context.read<RecentPlacesBloc>().onRefresh(mounted);
+                    context.read<SpecialStateOneBloc>().onRefresh(mounted);
+                    context.read<SpecialStateTwoBloc>().onRefresh(mounted);
+                    context.read<RecommandedPlacesBloc>().onRefresh(mounted);
+                  },
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        //  Header(),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Featured(),
+                        PopularPlaces(),
+                        //       UserPostSection(),
+                        RecentPlaces(),
+                        //       SpecialStateOne(),
+                        //       SpecialStateTwo(),
+                        RecommendedPlaces()
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )),
+    );
   }
 
   @override
@@ -92,7 +160,7 @@ class Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final SignInBloc sb = Provider.of<SignInBloc>(context);
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 20),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 0),
       child: Column(
         children: [
           Row(
@@ -129,11 +197,14 @@ class Header extends StatelessWidget {
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(FontAwesome.ticket, size: 18),
+                    child: Icon(FontAwesome.ticket, size: 20, color: orange),
                   )),
               InkWell(
                   onTap: () {
-                    nextScreen(context, ChatScreen());
+                    //var bookingPageInfoDecoded
+                    //= await getBookingMainInfo('53.408777', '-2.981006');
+                    //var picList = await getCurrentDealsPicsUrls(bookingPageInfoDecoded);
+                    nextScreen(context, BookingMain());
                   },
                   child: Container(
                     height: 50,
@@ -142,12 +213,11 @@ class Header extends StatelessWidget {
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(FontAwesome.send, size: 18),
+                    child: Icon(LineIcons.hotel, size: 20, color: red),
                   )),
+              // its temporary ignore this
               InkWell(
-                  onTap: () {
-                    nextScreen(context, PostUploader());
-                  },
+                  onTap: () => nextScreen(context, ChatHome()),
                   child: Container(
                     height: 50,
                     width: 50,
@@ -155,7 +225,8 @@ class Header extends StatelessWidget {
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.add, size: 28),
+                    child: Icon(FontAwesomeIcons.facebookMessenger,
+                        size: 20, color: blue),
                   )),
               SizedBox(
                 width: 10,
@@ -225,57 +296,7 @@ class Header extends StatelessWidget {
             onTap: () {
               nextScreen(context, SearchPage());
             },
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      //color: Colors.green,
-      padding: EdgeInsets.only(top: 10, bottom: 5, left: 15, right: 15),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                Config().appName,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey[700]),
-              ),
-              Text(
-                'Explore ${Config().countryName}',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[600]),
-              )
-            ],
           ),
-          Spacer(),
-          IconButton(
-              icon: Icon(
-                Feather.bell,
-                size: 20,
-              ),
-              onPressed: () {}),
-          IconButton(
-              icon: Icon(
-                Feather.search,
-                size: 20,
-              ),
-              onPressed: () {})
         ],
       ),
     );
