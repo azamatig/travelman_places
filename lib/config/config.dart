@@ -2,12 +2,12 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Config {
   final String appName = 'Travelman';
-  final String mapAPIKey = 'AIzaSyBgSPunWyLVc_ddx1FT0NzwzYGJ-E4DPFI';
+  final String mapAPIKey = '';
   final String countryName = 'World';
   final String splashIcon = 'assets/images/splash.png';
-  final String supportEmail = 'azerbaev87@gmail.com';
+  final String supportEmail = '';
   final String privacyPolicyUrl = 'https://www.freeprivacypolicy.com/';
-  final String ourWebsiteUrl = 'https://travelman.kz';
+  final String ourWebsiteUrl = '';
   final String iOSAppId = '000000000';
 
   final String specialState1 = 'Almaty';
