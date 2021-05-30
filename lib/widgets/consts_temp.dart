@@ -8,7 +8,7 @@ final String collectionDbName = 'instagram_stories_db';
 final storiesRef = _firestore.collection(collectionDbName);
 final usersRef = _firestore.collection('users');
 
-const kToken = 'f41230bc222d3528d8909d1def2913d3';
+const kToken = '*****';
 const kInputDecoration = InputDecoration(
   hintText: 'Enter your email',
   contentPadding: EdgeInsets.symmetric(vertical: 10),
